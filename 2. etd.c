@@ -1,6 +1,21 @@
 #include "2. etd.h"
 
 //mechendo com o caracter de entrada
+
+char operacao(void){
+	char op = '+';
+	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
+	printf("\e[33m+ ---------- Adição\n");
+	printf("- ---------- Subtração\n");
+	printf("* ---------- Multiplicação\n");
+	printf("/ ---------- Divisão\n \e[m");
+	while((op != '-')||(op != '+')||(op != '*')||(op != '/')){
+		scanf(" %c", &op);
+		if((op == '-')||(op == '+')||(op == '*')||(op == '/')) break;
+		printf("\e[31mDigite um valor válido para a operação:\e[m\n");
+	}
+	return op;
+}
 	//andando até o final da lista de caracter
 CRTR* andarFinal(CRTR* palavra){
 	if(palavra)
@@ -9,12 +24,25 @@ CRTR* andarFinal(CRTR* palavra){
 	return palavra;
 }
 
-ETD* inicializaSinal(void){
-	ETD* p = (ETD*)malloc(sizeof(ETD));
-	//'\0' é o NULL do char
-	p->valor = '\0';
-	p->prox = (CRTR*) NULL;
-	return p;
+	//inserir números ao contrario
+CRTR* insC(CRTR* lista, int n){
+	CRTR* novo = (CRTR*)malloc(sizeof(CRTR));
+	novo->car = n;
+	novo->ant = (CRTR*) NULL;
+	novo->prox = lista;
+	if(lista) lista->ant = novo;
+	return novo;
+}
+	//inverter os números
+CRTR* invC(CRTR* num){
+	CRTR *inv = (CRTR*) NULL;
+	CRTR *fim = (CRTR*)malloc(sizeof(CRTR));
+	fim = num;
+	while(fim){
+		inv = insC(inv, fim->car);
+		fim = fim->prox;
+	}
+	return inv;
 }
 
 CRTR* inicializaCarac(int n){
@@ -25,10 +53,18 @@ CRTR* inicializaCarac(int n){
 	return q;
 }
 
+ETD* inicializaSinal(void){
+	ETD* p = (ETD*)malloc(sizeof(ETD));
+	//'\0' é o NULL do char
+	p->valor = '\0';
+	p->prox = (CRTR*) NULL;
+	return p;
+}
+
 ETD* sinal(ETD* palavra){
 	char n;
 	while(1){
-		scanf("%c", &n);
+		scanf(" %c", &n);
 		if((n == '+')||(n == '-')){
 			palavra->valor = n;
 			palavra->prox = (CRTR*) NULL;
@@ -36,7 +72,7 @@ ETD* sinal(ETD* palavra){
 		}
 		else {
 			//repete o print duas vezes, n sei pq
-			printf("Digite um valor válido para o sinal:\n");
+			printf("\e[31mDigite um valor válido para o sinal:\n\e[m");
 		}
 	}
 	return palavra;
@@ -52,6 +88,7 @@ ETD* addCarac(ETD* palavra){
 		if((m >= 48)&&(m <= 57)){
 			aux->car = m-48;
 			aux->prox = (CRTR*) NULL;
+			palavra->ult = aux;
 			if(!num){
 				aux->ant = (CRTR*) NULL;
 				palavra->prox = num = aux;
@@ -72,7 +109,7 @@ ETD* addCarac(ETD* palavra){
 	//cria efetivamente o caracter
 ETD* criaCarac(ETD* palavra){
 	//add o sinal do número
-	printf("\nDigite o número com o sinal: \n");
+	printf("\n\e[33mDigite o número com o sinal: \e[m\n");
 	palavra = sinal(palavra);
 	//add os caracteres do número
 	palavra->prox = (CRTR*) NULL;
@@ -100,4 +137,32 @@ void escreveCarac(ETD* palavra){
 	}
 	printf("\n");
 
+}
+
+void escreveAlg(CRTR* lista){
+	CRTR *p = lista;
+	while(p){
+		printf("%d", p->car);
+		p = p->prox;
+	}
+	printf("\n");
+}
+
+void liberaCarac(ETD* lixo){
+	CRTR *q, *p = lixo->prox;
+	free(lixo);
+	while(p){
+		q = p->prox;
+		free(p);
+		p = q;
+	}
+}
+
+void liberaAlg(CRTR* lixo){
+	CRTR* q;
+	while(lixo){
+		q = lixo->prox;
+		free(lixo);
+		lixo = q;
+	}
 }
