@@ -1,5 +1,4 @@
 #include "0. imports.h"
-
 typedef struct caracteres{
 	int car;
 	struct caracteres *ant, *prox;
@@ -7,8 +6,11 @@ typedef struct caracteres{
 
 typedef struct entrada{
 	char valor;
-	CRTR* prox;
+	CRTR* ult;
+	CRTR* prox; //primeiro
 }ETD;
+
+char operacao(void);
 
 ETD* inicializacaoCarac(int n);
 	ETD* inicializaSinal(void);
@@ -18,5 +20,11 @@ ETD* inicializacaoCarac(int n);
 		ETD* addCarac(ETD* palavra);
 			CRTR* andarFinal(CRTR* palavra);
 
-void escreveCarac(ETD* palavra);
+CRTR* invC(CRTR* num);
+	CRTR* insC(CRTR* lista, int n);
 
+void escreveCarac(ETD* palavra);
+void escreveAlg(CRTR* lista);
+
+void liberaCarac(ETD* palavra);
+void liberaAlg(CRTR* lixo);
