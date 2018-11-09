@@ -1,5 +1,6 @@
 #include "2. etd.h"
 #include "1. ng.h"
+
 int main(void){
 	ETD *carc1 = inicializacaoCarac(1);
 	ETD *carc2 = inicializacaoCarac(2);
