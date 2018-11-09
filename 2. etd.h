@@ -2,7 +2,6 @@
 
 typedef struct caracteres{
 	int car;
-	char sinal;
 	struct caracteres *ant, *prox;
 }CRTR;
 
