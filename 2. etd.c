@@ -1,5 +1,7 @@
 #include "2. etd.h"
 
+#define oi printf("oi\n");
+
 //mechendo com o caracter de entrada
 
 char operacao(void){
@@ -77,7 +79,22 @@ ETD* sinal(ETD* palavra){
 	}
 	return palavra;
 }
-
+void validCarac(ETD* pal, CRTR* num, char car){
+	CRTR *aux = (CRTR*) malloc(sizeof(CRTR));
+	aux->car = car-48;
+	aux->prox = (CRTR*) NULL;
+	pal->ult = aux;
+	if(!num){
+		oi
+		aux->ant = (CRTR*) NULL;
+		pal->prox = num = aux;
+	} else{
+		CRTR *o;
+		o = andarFinal(num);
+		o->prox = aux;
+		aux->ant = o;
+	}
+}
 ETD* addCarac(ETD* palavra){
 	CRTR *num, *aux;
 	num = palavra->prox;
@@ -85,8 +102,13 @@ ETD* addCarac(ETD* palavra){
 	while(1){
 		aux = (CRTR*) malloc(sizeof(CRTR));
 		scanf("%c", &m);
-		if((m >= 48)&&(m <= 57)){
-			aux->car = m-48;
+		if(m == 48){
+			if(num){
+				validCarac(palavra, num, m);
+			}
+		}
+		else if((m >= 49)&&(m <= 57)){  //n consigo usar a validCarac aq sem dar erro
+			aux->car = m-48;	//INFERNOOOOOOOOOOOOOOOOOOOO
 			aux->prox = (CRTR*) NULL;
 			palavra->ult = aux;
 			if(!num){
@@ -99,7 +121,7 @@ ETD* addCarac(ETD* palavra){
 				aux->ant = o;
 			}
 		}
-		else if((m == 43)||(m == 45)){
+		else if(m == '\n'){
 			break;
 		}
 	}
@@ -113,7 +135,7 @@ ETD* criaCarac(ETD* palavra){
 	palavra = sinal(palavra);
 	//add os caracteres do número
 	palavra->prox = (CRTR*) NULL;
-	
+
 	palavra = addCarac(palavra);
 	return palavra;
 }
@@ -166,3 +188,4 @@ void liberaAlg(CRTR* lixo){
 		lixo = q;
 	}
 }
+
