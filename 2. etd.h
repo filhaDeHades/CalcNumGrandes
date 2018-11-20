@@ -18,6 +18,7 @@ ETD* inicializaSinal(void);
 ETD* criaCarac(ETD* palavra);
 ETD* sinal(ETD* palavra);
 CRTR* inicializaCarac(int n);
+void validCarac(ETD* pal, CRTR* num, char car);
 ETD* addCarac(ETD* palavra);
 CRTR* andarFinal(CRTR* palavra);
 
