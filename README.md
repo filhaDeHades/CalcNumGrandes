@@ -15,8 +15,35 @@ se a entrada for o número 1234, a lista será armazenada como:
 se a entrada for 1, a lista será armazenada como:
 ### x- 1 -x
 
-NG é um struct apenas com números que não precisa ser usado.
-ETD é o struct que é usado para lista que tera o sinal e os algarismos.
+NG é um struct apenas com números que não precisa ser usado. Ele já foi apagado da main.
+###ETD é o struct que é usado para lista que tera o sinal e os algarismos.
 
-Falta dar algumas refinadas no código, ignorar o zero a esquerda, etc.
+A alteração para que o 0 a esquerda fosse ignorado foi feita.
+
 também vou fazer uma função que retorne os algarismos invertidos para facilitar em algumas equações.
+obs: A função foi feita mas n esta sendo usada, possivelmente será excluida.
+
+##Quem fez o que?
+
+Agatha:
+
+Nicole:
+
+Tamires:
+Struct CRTR
+Struct ETD
+char operacao(void);
+ETD* inicializacaoCarac(int n);
+ETD* inicializaSinal(void);
+ETD* criaCarac(ETD* palavra);
+ETD* sinal(ETD* palavra);
+CRTR* inicializaCarac(int n);
+void validCarac(ETD* pal, CRTR* num, char car);
+ETD* addCarac(ETD* palavra);
+CRTR* andarFinal(CRTR* palavra);
+CRTR* invC(CRTR* num);
+CRTR* insC(CRTR* lista, int n);
+void escreveCarac(ETD* palavra);
+void escreveAlg(CRTR* lista);
+void liberaCarac(ETD* palavra);
+void liberaAlg(CRTR* lixo);
