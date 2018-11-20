@@ -16,22 +16,22 @@ se a entrada for 1, a lista será armazenada como:
 ### x- 1 -x
 
 NG é um struct apenas com números que não precisa ser usado. Ele já foi apagado da main.
-###ETD é o struct que é usado para lista que tera o sinal e os algarismos.
+### ETD é o struct que é usado para lista que tera o sinal e os algarismos.
 
 A alteração para que o 0 a esquerda fosse ignorado foi feita.
 
 também vou fazer uma função que retorne os algarismos invertidos para facilitar em algumas equações.
 obs: A função foi feita mas n esta sendo usada, possivelmente será excluida.
 
-##Quem fez o que?
+## Quem fez o que?
 
 Agatha:
 
 Nicole:
 
 Tamires:
-Struct CRTR
-Struct ETD
+Struct CRTR; 
+Struct ETD; 
 char operacao(void);
 ETD* inicializacaoCarac(int n);
 ETD* inicializaSinal(void);
