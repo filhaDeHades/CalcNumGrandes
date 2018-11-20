@@ -25,11 +25,11 @@ obs: A função foi feita mas n esta sendo usada, possivelmente será excluida.
 
 ## Quem fez o que?
 
-Agatha:
+#### Agatha:
 
-Nicole:
+#### Nicole:
 
-Tamires:
+#### Tamires:
 Struct CRTR; 
 Struct ETD; 
 char operacao(void);
