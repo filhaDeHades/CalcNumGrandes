@@ -23,6 +23,7 @@ CRTR* andarFinal(CRTR* palavra){
 	if(palavra)
 		while(palavra->prox)
 			palavra = palavra->prox;
+			printf("Alg: %d\n", palavra->car);
 	return palavra;
 }
 
@@ -89,13 +90,13 @@ void validCarac(ETD* pal, CRTR** num, char carac){
 		*num = aux;
 	} else{
 		CRTR *o;
-		*num = andarFinal(*num);
-		(*num)->prox = aux;
-		aux->ant = *num;
+		o = andarFinal(*num);
+		o->prox = aux;
+		aux->ant = o;
 	}
 }
 ETD* addCarac(ETD* palavra){
-	CRTR *num, *aux;
+	CRTR *num;
 	num = palavra->prox;
 	char m;
 	while(1){
@@ -119,9 +120,9 @@ ETD* criaCarac(ETD* palavra){
 	//add o sinal do número
 	printf("\n\e[33mDigite o número com o sinal: \e[m\n");
 	palavra = sinal(palavra);
+
 	//add os caracteres do número
 	palavra->prox = (CRTR*) NULL;
-
 	palavra = addCarac(palavra);
 	return palavra;
 }
