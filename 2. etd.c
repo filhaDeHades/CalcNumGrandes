@@ -79,20 +79,19 @@ ETD* sinal(ETD* palavra){
 	}
 	return palavra;
 }
-void validCarac(ETD* pal, CRTR* num, char car){
+void validCarac(ETD* pal, CRTR** num, char carac){
 	CRTR *aux = (CRTR*) malloc(sizeof(CRTR));
-	aux->car = car-48;
+	aux->car = carac-48;
 	aux->prox = (CRTR*) NULL;
 	pal->ult = aux;
-	if(!num){
-		oi
+	if(!*num){
 		aux->ant = (CRTR*) NULL;
-		pal->prox = num = aux;
+		*num = aux;
 	} else{
 		CRTR *o;
-		o = andarFinal(num);
-		o->prox = aux;
-		aux->ant = o;
+		*num = andarFinal(*num);
+		(*num)->prox = aux;
+		aux->ant = *num;
 	}
 }
 ETD* addCarac(ETD* palavra){
@@ -100,26 +99,13 @@ ETD* addCarac(ETD* palavra){
 	num = palavra->prox;
 	char m;
 	while(1){
-		aux = (CRTR*) malloc(sizeof(CRTR));
 		scanf("%c", &m);
 		if(m == 48){
-			if(num){
-				validCarac(palavra, num, m);
-			}
+			if(num)
+				validCarac(palavra, &num, m);
 		}
-		else if((m >= 49)&&(m <= 57)){  //n consigo usar a validCarac aq sem dar erro
-			aux->car = m-48;	//INFERNOOOOOOOOOOOOOOOOOOOO
-			aux->prox = (CRTR*) NULL;
-			palavra->ult = aux;
-			if(!num){
-				aux->ant = (CRTR*) NULL;
-				palavra->prox = num = aux;
-			} else{
-				CRTR *o;
-				o = andarFinal(num);
-				o->prox = aux;
-				aux->ant = o;
-			}
+		else if((m >= 49)&&(m <= 57)){
+			validCarac(palavra, &num, m);
 		}
 		else if(m == '\n'){
 			break;
@@ -188,4 +174,3 @@ void liberaAlg(CRTR* lixo){
 		lixo = q;
 	}
 }
-
