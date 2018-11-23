@@ -3,20 +3,19 @@
 
 int maiorMagnitude(ETD* num1, ETD* num2){
 
-	CRTR* n1 = num1->prox, *n2 = num2->prox;
+	CRTR* n1 = num1->ult, *n2 = num2->ult;
 	int maior=-1;
 
-
 	while(1){
-		if (n1->prox!=NULL && n2->prox==NULL){ //n1 possui mais caracteres
+		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
 			maior = 1;
 			return maior;
 		}
-		else if (n2->prox!=NULL && n1->prox==NULL){ //n2 possui mais caracteres
+		else if (n2->ant!=NULL && n1->ant==NULL){ //n2 possui mais caracteres
 			maior = 2;
 			return maior;
 		}
-		else if ((n2->prox==NULL && n1->prox==NULL) && (n1->car==n2->car)){
+		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
 			return maior;
 		}else{
 			if (n1->car>n2->car) {
@@ -26,53 +25,53 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 			else if (n1->car==n2->car){
 				if (maior==-1) maior = 0;
 			}
-			if (n2->prox!=NULL && n1->prox!=NULL){
-				n1 = n1->prox;
-				n2 = n2->prox;
+			if (n2->ant!=NULL && n1->ant!=NULL){
+				n1 = n1->ant;
+				n2 = n2->ant;
 			} else return maior;
 		}
-		if (n1->prox!=NULL && n2->prox==NULL){ //n1 possui mais caracteres
+		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
 
 		}
 	}
 }
 
 ETD* divide(ETD* num1, ETD* num2){
-
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
+	resp->prox = NULL;
 	ETD* contador = (ETD*)malloc(sizeof(ETD));
-	contador->prox = insC(contador->prox, 0);
 	contador->valor = '+';
+	contador->prox = NULL;
+	contador = insereComeco(contador, 0);
 	ETD* somar = (ETD*)malloc(sizeof(ETD));
-	somar->prox = insC(somar->prox, 0);
+	somar->prox = NULL;
+	somar = insereComeco(somar, 0);
 	somar->valor = '+';
 	ETD* somador = (ETD*)malloc(sizeof(ETD));
-	somador->prox = insC(somador->prox, 1);
+	somador->prox = NULL;
+	somador = insereComeco(somador, 1);
 	somador->valor = '+';
 	n1->valor = '+';
 	n2->valor = '+';
 
-	//sinal resposta
 	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
 	else resp->valor = '+';
 
 	//verificando qual numero é maior
 	int maior = maiorMagnitude(n1, n2);
-	if(maior==0 || maior==2){ 
-		if (maior = 0) resp->prox = insC(resp->prox, 1);
+
+	if(maior==0 || maior==2){
+		if (maior == 0) resp->prox = insC(resp->prox, 1);
 		else resp->prox = insC(resp->prox, 0);
 		return resp;
 	}
 
-	somar->prox = invC(somar->prox);
+
 	do{
 		somar = soma(somar, n2);
-		somar->prox = invC(somar->prox);
 		maior = maiorMagnitude(somar, n1);
-		if (maior == 1)
-			break;
-		contador->prox = invC(contador->prox);
+		if (maior==1) break;
 		contador = soma(contador, somador);
 
 	}while(maior==2);
@@ -83,38 +82,34 @@ ETD* divide(ETD* num1, ETD* num2){
 }
 
 ETD* soma(ETD* num1, ETD* num2){
-	
+
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	
+	resp->prox = NULL;
 	if (num1->valor=='+' && num2->valor=='-'){
-		// resp = subtrai(num1, num2);
-		return resp;	
-	} 
+		resp = subtrai(num1, num2);
+		return resp;
+	}
 	else if(num1->valor='-' && num2->valor=='-') resp->valor = '-';
 	else if(num1->valor='+' && num2->valor=='+') resp->valor = '+';
 	else{
-		// resp = subtrai(num2, num1);
+		resp = subtrai(num2, num1);
 		return resp;
 	}
 
 	int soma = 0, vaiProProximo = 0;
 
-	CRTR* n1 = num1->prox, *n2 = num2->prox;
+	CRTR* n1 = num1->ult, *n2 = num2->ult;
 	int c=0, aux=-1;
 
-	// n1 = andarFinal(n1);
-	// n2 = andarFinal(n2);
-
 	while(1){
-
-		if(n1->prox==NULL && c==1 && aux!=1){
+		if(n1->ant==NULL && c==1 && aux!=1){ //quando n2 é maior que n1 e está no final
 			soma = n2->car + vaiProProximo;
 			if(soma>9){
 				soma = soma - 10;
 				vaiProProximo = 1;
 			}
 			else vaiProProximo = 0;
-		}else if(n2->prox==NULL && c==1 && aux!=2){
+		}else if(n2->ant==NULL && c==1 && aux!=2){ //quando n1 é maior que n1 e está no final
 			soma = n1->car + vaiProProximo;
 			if(soma>9){
 				soma = soma - 10;
@@ -131,27 +126,26 @@ ETD* soma(ETD* num1, ETD* num2){
 			else vaiProProximo = 0;
 		}
 
-		if((n1->prox!=NULL) && (n2->prox==NULL)){ //n1 possui mais casas
-			n1 = n1->prox;
-			if(n1->prox==NULL) aux = 1;
+		if((n1->ant!=NULL) && (n2->ant==NULL)){ //n1 possui mais casas
+			n1 = n1->ant;
+			if(n1->ant==NULL) aux = 1;
 			c = 1;
-		}else if(n2->prox!=NULL && (n1->prox==NULL)){ //n2 possui mais casas
-			n2 = n2->prox;
-			if(n2->prox==NULL) aux = 2;
+		}else if(n2->ant!=NULL && (n1->ant==NULL)){ //n2 possui mais casas
+			n2 = n2->ant;
+			if(n2->ant==NULL) aux = 2;
 			c = 1;
-		}else if(n1->prox!=NULL && n2->prox!=NULL){
-			n1 = n1->prox;
-			n2 = n2->prox;
+		}else if(n1->ant!=NULL && n2->ant!=NULL){
+			n1 = n1->ant;
+			n2 = n2->ant;
 		}else{
-			resp->prox = insC(resp->prox, soma);
+			resp = insereComeco(resp, soma);
 			break;
 		}
-
-		resp->prox = insC(resp->prox, soma);
+		resp = insereComeco(resp, soma);
 		soma = 0;
 	}
 
-	if(vaiProProximo==1) resp->prox = insC(resp->prox, vaiProProximo);
+	if(vaiProProximo==1) resp = insereComeco(resp, vaiProProximo);
 	return resp;
 }
 
@@ -191,14 +185,14 @@ ETD* multiplica(ETD* num1, ETD* num2){
 	}
 
 	CRTR* n1 = numb1->ult, *n2 = numb2->ult;
-	
+
 	for (a = 0; a <= CaracsNumb1; a++){
 		if (a == CaracsNumb1){ // ultima inserção de caractere, o ultimo carry
 			num = carry;
 			resp = insereComeco(resp, num);
 			break;
 		}
-		
+
 		num = n1->car * n2->car + carry;
 
 		if (num > 9){
@@ -244,7 +238,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 ETD* subtrai(ETD* num1, ETD* num2){
 	int maior =  maiorMagnitude(num1, num2);
-	
+
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
 
@@ -265,7 +259,7 @@ ETD* subtrai(ETD* num1, ETD* num2){
 	else if ((num1->valor == '-') && (num2->valor == '-')){ //num2 - num1
 		numb1 = num2;
 		numb2 = num1;
-		if (maior == 1) resp->valor = num1->valor; 
+		if (maior == 1) resp->valor = num1->valor;
 		else if (maior == 2) resp->valor = num2->valor;
 	}
 

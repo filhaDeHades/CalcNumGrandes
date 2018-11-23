@@ -51,7 +51,7 @@ CRTR* invC(CRTR* num){
 CRTR* inicializaCarac(int n){
 	CRTR* q = (CRTR*)malloc(sizeof(CRTR));
 	q->ant = (CRTR*) NULL;
-	q->car = n-48;
+	q->car = n; //estamos lidando com int, não char, logo não há a necessidade de diminuir 48
 	q->prox = (CRTR*) NULL;
 	return q;
 }
@@ -95,6 +95,20 @@ void validCarac(ETD* pal, CRTR** num, char carac){
 		aux->ant = o;
 	}
 }
+
+ETD* insereComeco(ETD* palavra, int num){
+	CRTR *novo = (CRTR*)malloc(sizeof(CRTR));
+	novo->car = num;
+	novo->ant = NULL;
+	novo->prox = palavra->prox;
+	if (palavra->prox)
+		palavra->prox->ant = novo;
+	else
+		palavra->ult = novo;
+	palavra->prox = novo;
+}
+
+
 ETD* addCarac(ETD* palavra){
 	CRTR *num;
 	num = palavra->prox;
@@ -133,15 +147,6 @@ ETD* inicializacaoCarac(int n){
 	palavra = criaCarac(palavra);
 	printf("\n");
 	return palavra;
-}
-
-ETD* insereComeco(ETD* palavra, int num){
-	CRTR *novo = (CRTR*)malloc(sizeof(CRTR));
-	novo->car = num;
-	novo->ant = NULL;
-	novo->prox = palavra->prox;
-	palavra->prox->ant = novo;
-	palavra->prox = novo;
 }
 
 	//printando o caracter

@@ -25,6 +25,7 @@ ETD* insereComeco(ETD* palavra, int num);
 
 CRTR* invC(CRTR* num);
 CRTR* insC(CRTR* lista, int n);
+ETD* insereComeco(ETD* palavra, int num);
 
 void escreveCarac(ETD* palavra);
 void escreveAlg(CRTR* lista);

@@ -31,10 +31,13 @@ ETD* multiplica(ETD* num1, ETD* num2);
 ETD* subtrai(ETD* num1, ETD* num2);
 
 #### Nicole:
+ETD* soma(ETD* num1, ETD* num2);
+ETD* divide(ETD* num1, ETD* num2);
+int maiorMagnitude(ETD* num1, ETD* num2);
 
 #### Tamires:
-Struct CRTR; 
-Struct ETD; 
+Struct CRTR;
+Struct ETD;
 char operacao(void);
 ETD* inicializacaoCarac(int n);
 ETD* inicializaSinal(void);
