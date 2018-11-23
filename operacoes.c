@@ -154,3 +154,153 @@ ETD* soma(ETD* num1, ETD* num2){
 	if(vaiProProximo==1) resp->prox = insC(resp->prox, vaiProProximo);
 	return resp;
 }
+
+ETD* multiplica(ETD* num1, ETD* num2){
+	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0, notZero = 0;
+	int a, b, num, carry = 0;
+
+	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); // lista resultante
+
+	if (maior == -1){
+		printf("erro ao comparar magnitudes\n");
+		return resp;
+	}
+
+	if (((num1->valor == '-') && (num2->valor == '-')) || // -num1 * -num2
+		((num1->valor == '+') && (num2->valor == '+'))) // num1 *num2
+		resp->valor = '+';
+	else resp->valor = '-';
+
+	if (maior == 2){
+		numb1 = num2;
+		numb2 = num1; // multiplicar pelo número com menos caracteres
+	}
+
+	CRTR *aux = numb2->prox; // aponta por pirmeiro caracter da lista
+	while (aux){
+		if (aux->car != 0) notZero++; // determina se o número não é contido por zeros
+		CaracsNumb2 ++; // conta o número de caracteres de numb2
+		aux = aux->prox;
+	}
+
+	aux = numb1->prox; // aponta por pirmeiro caracter da lista
+	while (aux){
+		CaracsNumb1 ++; // conta o número de caracteres de numb1
+		aux = aux->prox;
+	}
+
+	CRTR* n1 = numb1->ult, *n2 = numb2->ult;
+	
+	for (a = 0; a <= CaracsNumb1; a++){
+		if (a == CaracsNumb1){ // ultima inserção de caractere, o ultimo carry
+			num = carry;
+			resp = insereComeco(resp, num);
+			break;
+		}
+		
+		num = n1->car * n2->car + carry;
+
+		if (num > 9){
+			carry = num / 10; // carrega o decimal para o proximo num
+			num = num % 10;
+		}
+		resp = insereComeco(resp, num); // cria os ultimos caracteres de resp, os outros serão adicionados com as proximas multiplicações, os atuais (menos o ultimo) serão modificados também
+		n1 = n1->ant;
+	}
+
+	n1 = numb1->ult; // reseta a posição de n1 para as multiplicações futuras
+	n2 = n2->ant;
+	carry = 0;
+	CRTR* p =  resp->ult->ant, *q = p; // p pega o antepenúltimo, q vai pegar o último de cada porduto de num1 * carac de num2
+
+	for (a = 0; a < CaracsNumb2; a++){
+		for (b = 0; b <= CaracsNumb1; b++){
+			if (b == CaracsNumb1){ // inserção unica, apenas do carry
+				num = carry;
+				resp = insereComeco(resp, num);
+				break;
+			}
+			num = n1->car * n2->car + carry + p->car;
+			if (num < 9){
+				carry = num / 10;
+				num = num % 10;
+			}
+
+			p->car = num;
+			n1 = n1->ant;
+			p = p->ant;
+		}
+
+		n1 = numb1->ult;
+		n2 = n2->ant;
+		carry = 0;
+		q = q->ant;
+		p = q;
+	}
+
+	return resp;
+}
+
+ETD* subtrai(ETD* num1, ETD* num2){
+	int maior =  maiorMagnitude(num1, num2);
+	
+	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
+
+	if (maior == -1){
+		printf("erro ao comparar magnitudes\n");
+		return resp;
+	}
+
+	if (((num1->valor == '+') && (num2->valor == '-')) || // num1 + num2
+		((num1->valor == '-') && (num2->valor == '+'))){ // -(num1 + num2) ou -num1 -num2
+		resp = soma(num1, num2);
+		return resp;
+	}
+	else if (maior == 0) {
+		resp->prox->car; // são iguais, então a resposta é zero
+		return resp;
+	}
+	else if ((num1->valor == '-') && (num2->valor == '-')){ //num2 - num1
+		numb1 = num2;
+		numb2 = num1;
+		if (maior == 1) resp->valor = num1->valor; 
+		else if (maior == 2) resp->valor = num2->valor;
+	}
+
+	CRTR* n1 = numb1->ult, *n2 = numb2->ult; //start pelo fim
+
+	while ((n1) && (n2)){ // enquanto ambos tiverem caracteres
+		if (n1->car >= n2->car){
+			int num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant; // andando do menor significativo pro maior
+			n2 = n2->ant;
+		}
+		else{ //n1->car < n2->car => pegar emprestado
+			n1->ant->car -= 1;
+			n1->car += 10;
+			int num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+			n2 = n2->ant;
+		}
+	}
+	if ((n1) && (!n2)){ // quando não houver mais n2 (maior == 1)
+		while (n1){
+			int num = n1->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+		}
+	}
+	else if ((!n1) && (n2)){ // quando não houver mais n1 (maior == 2)
+		while (n2){
+			int num = n2->car;
+			resp = insereComeco(resp, num);
+			n2 = n2->ant;
+		}
+	}
+
+	return resp;
+}

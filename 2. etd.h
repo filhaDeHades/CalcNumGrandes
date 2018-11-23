@@ -21,6 +21,7 @@ CRTR* inicializaCarac(int n);
 void validCarac(ETD* pal, CRTR** num, char car);
 ETD* addCarac(ETD* palavra);
 CRTR* andarFinal(CRTR* palavra);
+ETD* insereComeco(ETD* palavra, int num);
 
 CRTR* invC(CRTR* num);
 CRTR* insC(CRTR* lista, int n);

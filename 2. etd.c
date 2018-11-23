@@ -135,6 +135,15 @@ ETD* inicializacaoCarac(int n){
 	return palavra;
 }
 
+ETD* insereComeco(ETD* palavra, int num){
+	CRTR *novo = (CRTR*)malloc(sizeof(CRTR));
+	novo->car = num;
+	novo->ant = NULL;
+	novo->prox = palavra->prox;
+	palavra->prox->ant = novo;
+	palavra->prox = novo;
+}
+
 	//printando o caracter
 void escreveCarac(ETD* palavra){
 	ETD *p = palavra;
