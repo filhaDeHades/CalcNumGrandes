@@ -17,6 +17,10 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 	CRTR* n1 = num1->ult, *n2 = num2->ult;
 	int maior=-1;
 
+	if (n1->ant==NULL && n2->ant==NULL && n1->car==n2->car){
+		maior = 0;
+	}
+
 	while(1){
 		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
 			maior = 1;

@@ -6,6 +6,7 @@
 int main(void){
 	ETD *carc1 = inicializacaoCarac(1);
 	ETD *carc2 = inicializacaoCarac(2);
+	printf("%d \n", maiorMagnitude(carc1, carc2));
 	CRTR  *inv2;
 	char oper;
 	oper = operacao();
