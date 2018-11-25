@@ -3,6 +3,17 @@
 
 int maiorMagnitude(ETD* num1, ETD* num2){
 
+	if (num2->prox->car==0){
+		if (num1->prox->car!=0)
+			return 1;
+		else return 0;
+	}
+	if(num1->prox->car==0){
+		if (num2->prox->car!=0)
+			return 2;
+		else return 0;
+	}
+
 	CRTR* n1 = num1->ult, *n2 = num2->ult;
 	int maior=-1;
 
@@ -16,6 +27,7 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 			return maior;
 		}
 		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
+			// maior = 0;
 			return maior;
 		}else{
 			if (n1->car>n2->car) {
@@ -29,9 +41,6 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 				n1 = n1->ant;
 				n2 = n2->ant;
 			} else return maior;
-		}
-		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
-
 		}
 	}
 }
@@ -56,7 +65,7 @@ ETD* divide(ETD* num1, ETD* num2){
 	//n1 é 0
 	if (maiorMagnitude(somar, n1)==0){
 		resp->valor = '+';
-		resp = insereComeco(resp, 0)
+		resp = insereComeco(resp, 0);
 	}
 
 	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
@@ -85,7 +94,6 @@ ETD* divide(ETD* num1, ETD* num2){
 	}while(maior==2);
 
 	resp->prox = contador->prox;
-
 	return resp;
 }
 
@@ -377,11 +385,17 @@ ETD * multiplica2(ETD* num1, ETD* num2){
 	n1->valor = '+';
 	n2->valor = '+';
 
-	if(maiorMagnitude(somar, n2)==0) resp = insereComeco(resp, 0);
-	if(maiorMagnitude(somar, n1)==0) resp = insereComeco(resp, 0);
+	int maior = maiorMagnitude(contador, n2);
+	if(maior==0){
+		resp = insereComeco(resp, 0);
+		return resp;
+	}
+	maior = maiorMagnitude(contador, n1);
+	if(maior==0){
+		resp = insereComeco(resp, 0);
+		return resp;
+	}
 
-
-	int maior = -1;
 	do{
 		somar = soma(somar, n1);
 		contador = soma(contador, somador);

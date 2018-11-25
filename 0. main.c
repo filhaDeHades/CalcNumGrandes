@@ -8,7 +8,7 @@ int main(void){
 	ETD *carc2 = inicializacaoCarac(2);
 	CRTR  *inv2;
 	char oper;
-
+	printf("%d :",maiorMagnitude(carc1, carc2));
 	oper = operacao();
 	printf("Operação: %c", oper);
 	printf("\n");
@@ -32,11 +32,12 @@ int main(void){
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
 		ETD *multiplicando = multiplica2(carc1, carc2);
+		// printf(" result: %d", multiplicando->prox->car);
 		escreveCarac(multiplicando);
 		printf("\n");
 	} else if(oper == '/'){
 		printf("\nResultado da Divisão:\n");
-		ETD zero = (ETD*)malloc(sizeof(ETD));
+		ETD* zero = (ETD*)malloc(sizeof(ETD));
 		zero = insereComeco(zero, 0);
 		if(maiorMagnitude(zero, carc2)!=0){
 			ETD *dividindo = divide(carc1, carc2);

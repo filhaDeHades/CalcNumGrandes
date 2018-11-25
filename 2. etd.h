@@ -22,7 +22,7 @@ void validCarac(ETD* pal, CRTR** num, char car);
 ETD* addCarac(ETD* palavra);
 CRTR* andarFinal(CRTR* palavra);
 ETD* insereComeco(ETD* palavra, int num);
-
+void tiraZero(ETD* num);
 CRTR* invC(CRTR* num);
 CRTR* insC(CRTR* lista, int n);
 ETD* insereComeco(ETD* palavra, int num);
