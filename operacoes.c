@@ -153,13 +153,18 @@ ETD* soma(ETD* num1, ETD* num2){
 }
 
 ETD* multiplica(ETD* num1, ETD* num2){
-	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0, notZero1 = 0, notZero2 = 0;
+	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0;
 	int a, b, num = 0, carry = 0;
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); // lista resultante
 	resp->prox = NULL;
 	resp->ult = NULL;
+
+	if ((num1->prox == NULL) || (num2->prox == NULL)){ // um ou mais deles é contido apenas por zero
+		resp = insereComeco(resp, num);
+		return resp;
+	}
 
 	if (maior == -1){
 		printf("erro ao comparar magnitudes\n");
@@ -172,22 +177,15 @@ ETD* multiplica(ETD* num1, ETD* num2){
 	else resp->valor = '-';
 
 	CRTR* aux = numb2->prox; // aponta por primeiro caracter da lista
-	while (aux){
-		if (aux->car != 0) notZero2++; // determina se o número não é contido por zeros
+	while (aux != NULL){
 		CaracsNumb2 ++; // conta o número de caracteres de numb2
 		aux = aux->prox;
 	}
 
 	aux = numb1->prox; // aponta por pirmeiro caracter da lista
-	while (aux){
-		if (aux->car != 0) notZero1++; // determina se o número não é contido por zeros
+	while (aux != NULL){
 		CaracsNumb1 ++; // conta o número de caracteres de numb1
 		aux = aux->prox;
-	}
-	
-	if ((!notZero1) || (!notZero2)){ // um ou mais deles é contido apenas por zero
-		resp = insereComeco(resp, num);
-		return resp;
 	}
 
 	if (CaracsNumb2 > CaracsNumb1){
@@ -221,11 +219,11 @@ ETD* multiplica(ETD* num1, ETD* num2){
 	carry = 0;
 	CRTR* p = resp->ult->ant, *q = p; // *p pega o antepenúltimo, *q vai pegar o último de cada produto de num1 * carac de num2
 
-	for (a = 0; a < CaracsNumb2; a++){ // andar o número de casas de numb2, menos a ultima, porque ja foi
+	for (a = 1; a < CaracsNumb2; a++){ // andar o número de casas de numb2, menos a ultima, porque ja foi
 		for (b = 0; b <= CaracsNumb1; b++){ // a casa representada por a vai ser multiplicada por tds as casas de numb1, precisa ser <= porque a casa adicional será do carry
 			if (b == CaracsNumb1){ // inserção unica, apenas do carry
+				if (carry == 0) break; // se o carry for zero, não é necessário inserir (senão o número pode acabar com uma casa contendo apenas um 0)
 				num = carry;
-				if (num == 0) break; // se o carry for zero, não é necessário inserir (senão o número pode acabar com uma casa contendo apenas um 0)
 				resp = insereComeco(resp, num);
 				break;
 			}
@@ -234,7 +232,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 			carry = num / 10;
 			num = num % 10;
-			// p->car = num;
+			p->car = num;
 			n1 = n1->ant;
 			p = p->ant; // vai andar como um "n1" de resp
 		}
