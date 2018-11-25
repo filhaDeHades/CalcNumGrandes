@@ -1,35 +1,43 @@
 // #include "2. etd.h"
 // #include "1. ng.h"
 #include "operacoes.h"
+#define oi printf("oi\n");
+
 
 int main(void){
 	ETD *carc1 = inicializacaoCarac(1);
 	ETD *carc2 = inicializacaoCarac(2);
-	CRTR *inv1, *inv2;
+	CRTR  *inv2;
 	char oper;
 
 	oper = operacao();
 	printf("Operação: %c", oper);
 	printf("\n");
 
-	//EXISTE ALGUM ERRO NESSAS LINHAS COMENTADAS, POIS ESTÁ DANDO ERRO DE SEGMENTAÇÃO
-	// printf("%d\n", carc1->ult->car);
-	// printf("\nNum1\n");
-	// escreveCarac(carc1);
-	// printf("\nNum2:\n");
-	// escreveCarac(carc2);
+	printf("%d\n", carc1->ult->car);
+	printf("\nNum1\n");
+	escreveCarac(carc1);
+	printf("\nNum2:\n");
+	escreveCarac(carc2);
 
-	ETD *somamdo = soma(carc1, carc2);
-	escreveCarac(somamdo);
-
-	// printf("\nNum1 inverso:\n");
-	// escreveAlg(inv1);
-	// inv2 = invC(carc2->prox);
-	// printf("\nNum2 inverso:\n");
-	// escreveAlg(inv2);
-
-	// liberaCarac(carc1);
-	// liberaCarac(carc2);
-	// liberaAlg(inv1);
-	// liberaAlg(inv2);
-}
+	if(oper == '+'){
+		printf("\nResultado da Soma:\n");
+		ETD *somamdo = soma(carc1, carc2);
+		escreveCarac(somamdo);
+		printf("\n");
+	} else if(oper == '-'){
+		printf("\nResultado da Subtração:\n");
+		/*ETD *subtraindo = subtrai(carc1, carc2);
+		escreveCarac(subtraindo);*/
+		printf("\n");
+	} else if(oper == '*'){
+		printf("\nResultado da Multiplicação:\n");
+		/*ETD *multiplicando = multiplica(carc1, carc2);
+		escreveCarac(multiplicando);*/
+		printf("\n");
+	} else if(oper == '/'){
+		printf("\nResultado da Divisão:\n");
+		/*ETD *dividindo = divide(carc1, carc2);
+		escreveCarac(dividindo);*/
+		printf("\n");
+	}
