@@ -13,7 +13,7 @@ int main(void){
 	printf("Operação: %c", oper);
 	printf("\n");
 
-	printf("%d\n", carc1->ult->car);
+	printf("\nÚltimo caracter do 1º número: %d\n\n", carc1->ult->car);
 	printf("\nNum1\n");
 	escreveCarac(carc1);
 	printf("\nNum2:\n");

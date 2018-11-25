@@ -3,6 +3,15 @@
 
 //mechendo com o caracter de entrada
 
+void tiraZero(ETD* num){
+	CRTR *p = num->prox, *q = num->prox;
+	while((q->car)&&(q->car == 0)){
+		q = q->prox;
+		num->prox = q;
+		free(p);
+		p = q;
+	}
+}
 char operacao(void){
 	char op = '+';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
@@ -136,6 +145,14 @@ ETD* criaCarac(ETD* palavra){
 	//add os caracteres do número
 	palavra->prox = (CRTR*) NULL;
 	palavra = addCarac(palavra);
+	if(palavra->prox == (CRTR*) NULL){
+		CRTR* o = (CRTR*)malloc(sizeof(CRTR));
+		o->car = 0;
+		o->ant = (CRTR*) NULL;
+		o->prox = (CRTR*) NULL;
+		palavra->prox = o;
+		palavra->ult = o;
+	}
 	return palavra;
 }
 
