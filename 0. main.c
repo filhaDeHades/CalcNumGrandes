@@ -22,16 +22,19 @@ int main(void){
 		printf("\nResultado da Soma:\n");
 		ETD *somamdo = soma(carc1, carc2);
 		escreveCarac(somamdo);
+		liberaCarac(somamdo);
 		printf("\n");
 	} else if(oper == '-'){
 		printf("\nResultado da Subtração:\n");
 		ETD *subtraindo = subtrai(carc1, carc2);
 		escreveCarac(subtraindo);
+		liberaCarac(subtraindo);
 		printf("\n");
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
 		ETD *multiplicando = multiplica(carc1, carc2);
 		escreveCarac(multiplicando);
+		liberaCarac(multiplicando);
 		printf("\n");
 	} else if(oper == '/'){
 		printf("\nResultado da Divisão:\n");
@@ -40,9 +43,12 @@ int main(void){
 		if(maiorMagnitude(zero, carc2)!=0){
 			ETD *dividindo = divide(carc1, carc2);
 			escreveCarac(dividindo);
+			liberaCarac(dividindo);
 		}
 		else printf("Não podemos dividir numero por 0");
+		liberaCarac(zero);
 		printf("\n");
 	}
-
+	liberaCarac(carc1);
+	liberaCarac(carc2);
 }
