@@ -12,6 +12,7 @@ void tiraZero(ETD* num){
 		p = q;
 	}
 }
+
 char operacao(void){
 	char op = '+';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");

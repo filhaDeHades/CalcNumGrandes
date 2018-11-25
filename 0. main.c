@@ -8,7 +8,6 @@ int main(void){
 	ETD *carc2 = inicializacaoCarac(2);
 	CRTR  *inv2;
 	char oper;
-	printf("%d :",maiorMagnitude(carc1, carc2));
 	oper = operacao();
 	printf("Operação: %c", oper);
 	printf("\n");
@@ -31,8 +30,7 @@ int main(void){
 		printf("\n");
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
-		ETD *multiplicando = multiplica2(carc1, carc2);
-		// printf(" result: %d", multiplicando->prox->car);
+		ETD *multiplicando = multiplica(carc1, carc2);
 		escreveCarac(multiplicando);
 		printf("\n");
 	} else if(oper == '/'){
