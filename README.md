@@ -38,6 +38,7 @@ int maiorMagnitude(ETD* num1, ETD* num2);
 #### Tamires:
 Struct CRTR;
 Struct ETD;
+void tiraZero(ETD* num);
 char operacao(void);
 ETD* inicializacaoCarac(int n);
 ETD* inicializaSinal(void);
