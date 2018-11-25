@@ -153,7 +153,7 @@ ETD* soma(ETD* num1, ETD* num2){
 }
 
 ETD* multiplica(ETD* num1, ETD* num2){
-	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0;
+	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0, notZero1 = 0, notZero2= 0;
 	int a, b, num = 0, carry = 0;
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
