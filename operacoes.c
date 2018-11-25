@@ -52,18 +52,19 @@ ETD* divide(ETD* num1, ETD* num2){
 	somador->prox = NULL;
 	somador = insereComeco(somador, 1);
 	somador->valor = '+';
+	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
+	else if (num1->valor == '-' && num2->valor == '+') resp->valor = '-';
+	else resp->valor = '+';
+
 	n1->valor = '+';
 	n2->valor = '+';
-
-	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
-	else resp->valor = '+';
 
 	//verificando qual numero é maior
 	int maior = maiorMagnitude(n1, n2);
 
 	if(maior==0 || maior==2){
-		if (maior == 0) resp->prox = insC(resp->prox, 1);
-		else resp->prox = insC(resp->prox, 0);
+		if (maior == 0) resp = insereComeco(resp, 1);
+		else resp = insereComeco(resp, 0);
 		return resp;
 	}
 
@@ -83,7 +84,7 @@ ETD* divide(ETD* num1, ETD* num2){
 
 ETD* soma(ETD* num1, ETD* num2){
 
-	//print(num1->valor, num2->valor)	
+	//print(num1->valor, num2->valor)
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
 	resp->prox = NULL;
 	if (num1->valor=='+' && num2->valor=='-'){
@@ -184,7 +185,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		CaracsNumb1 ++; // conta o número de caracteres de numb1
 		aux = aux->prox;
 	}
-	
+
 	if ((!notZero1) || (!notZero2)){ // um ou mais deles é contido apenas por zero
 		resp = insereComeco(resp, num);
 		return resp;
@@ -211,7 +212,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 		carry = num / 10; // carrega o decimal para o proximo num
 		num = num % 10;
-		
+
 		resp = insereComeco(resp, num); // cria os ultimos caracteres de resp, os outros serão adicionados com as proximas multiplicações, os atuais (menos o ultimo) serão modificados também
 		n1 = n1->ant;
 	}
