@@ -84,7 +84,6 @@ ETD* divide(ETD* num1, ETD* num2){
 
 ETD* soma(ETD* num1, ETD* num2){
 
-	//print(num1->valor, num2->valor)
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
 	resp->prox = NULL;
 	if (num1->valor=='+' && num2->valor=='-'){
@@ -173,14 +172,15 @@ ETD* multiplica(ETD* num1, ETD* num2){
 	else resp->valor = '-';
 
 	CRTR *aux = numb2->prox; // aponta por pirmeiro caracter da lista
-	while (aux){
+
+	while (aux!=NULL){
 		if (aux->car != 0) notZero2++; // determina se o número não é contido por zeros
 		CaracsNumb2 ++; // conta o número de caracteres de numb2
 		aux = aux->prox;
 	}
-
 	aux = numb1->prox; // aponta por pirmeiro caracter da lista
-	while (aux){
+
+	while (aux!=NULL){
 		if (aux->car != 0) notZero1++; // determina se o número não é contido por zeros
 		CaracsNumb1 ++; // conta o número de caracteres de numb1
 		aux = aux->prox;
@@ -199,6 +199,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		CaracsNumb2 = temp; // manter o valor atrelado ao numb correto
 	}
 
+
 	CRTR* n1 = numb1->ult, *n2 = numb2->ult;
 
 	for (a = 0; a <= CaracsNumb1; a++){ // inserindo a multiplicação da ultima casa de numb2
@@ -208,6 +209,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 			break;
 		}
 
+
 		num = n1->car * n2->car + carry;
 
 		carry = num / 10; // carrega o decimal para o proximo num
@@ -216,6 +218,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		resp = insereComeco(resp, num); // cria os ultimos caracteres de resp, os outros serão adicionados com as proximas multiplicações, os atuais (menos o ultimo) serão modificados também
 		n1 = n1->ant;
 	}
+
 
 	n1 = numb1->ult; // reseta a posição de n1 para as multiplicações futuras
 	n2 = n2->ant; // anda para a penultima casa de numb2
@@ -241,10 +244,13 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		}
 
 		n1 = numb1->ult; // reseta a posição de n1
+
 		n2 = n2->ant;
+
 		carry = 0;
 		q = q->ant; // pega a menor casa de resp que será somada na próxima rodada
 		p = q; // volta pra posição que será somada na proxima rodada (como o n1, só que limitada à ultima casa q sofrerá soma)
+
 	}
 
 	return resp;
@@ -329,6 +335,46 @@ ETD* subtrai(ETD* num1, ETD* num2){
 			n2 = n2->ant;
 		}
 	}
+
+	return resp;
+}
+
+ETD * multiplica2(ETD* num1, ETD* num2){
+	ETD* n1 = num1, *n2 = num2;
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
+	resp->prox = NULL;
+	ETD* contador = (ETD*)malloc(sizeof(ETD));
+	contador->valor = '+';
+	contador->prox = NULL;
+	contador = insereComeco(contador, 0);
+	ETD* somar = (ETD*)malloc(sizeof(ETD));
+	somar->prox = NULL;
+	somar = insereComeco(somar, 0);
+	somar->valor = '+';
+	ETD* somador = (ETD*)malloc(sizeof(ETD));
+	somador->prox = NULL;
+	somador = insereComeco(somador, 1);
+	somador->valor = '+';
+
+	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
+	else if (num1->valor == '-' && num2->valor == '+') resp->valor = '-';
+	else resp->valor = '+';
+
+	n1->valor = '+';
+	n2->valor = '+';
+
+	if(maiorMagnitude(somar, n2)==0) resp = insereComeco(resp, 0);
+	if(maiorMagnitude(somar, n1)==0) resp = insereComeco(resp, 0);
+
+
+	int maior = -1;
+	do{
+		somar = soma(somar, n1);
+		contador = soma(contador, somador);
+		maior = maiorMagnitude(contador, n2);
+	}while(maior!=0);
+
+	resp->prox = somar->prox;
 
 	return resp;
 }

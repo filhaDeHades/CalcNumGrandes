@@ -32,7 +32,7 @@ int main(void){
 		printf("\n");
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
-		ETD *multiplicando = multiplica(carc1, carc2);
+		ETD *multiplicando = multiplica2(carc1, carc2);
 		escreveCarac(multiplicando);
 		printf("\n");
 	} else if(oper == '/'){
