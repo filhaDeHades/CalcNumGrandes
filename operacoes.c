@@ -83,6 +83,7 @@ ETD* divide(ETD* num1, ETD* num2){
 
 ETD* soma(ETD* num1, ETD* num2){
 
+	//print(num1->valor, num2->valor)	
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
 	resp->prox = NULL;
 	if (num1->valor=='+' && num2->valor=='-'){
@@ -92,7 +93,9 @@ ETD* soma(ETD* num1, ETD* num2){
 	else if(num1->valor='-' && num2->valor=='-') resp->valor = '-';
 	else if(num1->valor='+' && num2->valor=='+') resp->valor = '+';
 	else{
+		num1->valor = '+';
 		resp = subtrai(num2, num1);
+		if(maiorMagnitude(num1, num2) == 1) resp->valor = '+';
 		return resp;
 	}
 
