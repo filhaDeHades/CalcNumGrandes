@@ -101,7 +101,11 @@ ETD* soma(ETD* num1, ETD* num2){
 
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
 	resp->prox = NULL;
+
+	// if (maiorMagnitude(num1, num))
+
 	if (num1->valor=='+' && num2->valor=='-'){
+		num2->valor = '+';
 		resp = subtrai(num1, num2);
 		return resp;
 	}
@@ -182,6 +186,7 @@ ETD* subtrai(ETD* num1, ETD* num2){
 		return resp;
 	}
 	else if (maior == 0) { // são iguais
+		resp->valor = '+';
 		resp = insereComeco(resp, num); // resp é zero
 		return resp;
 	}
