@@ -52,6 +52,14 @@ ETD* divide(ETD* num1, ETD* num2){
 	somador->prox = NULL;
 	somador = insereComeco(somador, 1);
 	somador->valor = '+';
+
+
+	//n1 é 0
+	if (maiorMagnitude(somar, n1)==0){
+		resp->valor = '+';
+		resp = insereComeco(resp, 0)
+	}
+
 	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
 	else if (num1->valor == '-' && num2->valor == '+') resp->valor = '-';
 	else resp->valor = '+';

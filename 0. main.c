@@ -26,8 +26,13 @@ int main(void){
 		printf("\n");
 	} else if(oper == '-'){
 		printf("\nResultado da Subtração:\n");
-		ETD *subtraindo = subtrai(carc1, carc2);
-		escreveCarac(subtraindo);
+		ETD zero = (ETD*)malloc(sizeof(ETD));
+		zero = insereComeco(zero, 0);
+		if(maiorMagnitude(zero, carc2)!=0){
+			ETD *subtraindo = subtrai(carc1, carc2);
+			escreveCarac(subtraindo);
+		}
+		else printf("Não podemos dividir numero por 0");
 		printf("\n");
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
