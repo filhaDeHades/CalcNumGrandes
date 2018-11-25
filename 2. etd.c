@@ -1,6 +1,6 @@
 #include "2. etd.h"
 
-#define oi printf("oi\n");
+#define oi printf("oi2\n");
 
 //mechendo com o caracter de entrada
 
@@ -23,7 +23,6 @@ CRTR* andarFinal(CRTR* palavra){
 	if(palavra)
 		while(palavra->prox)
 			palavra = palavra->prox;
-			printf("Alg: %d\n", palavra->car);
 	return palavra;
 }
 
@@ -182,10 +181,10 @@ void liberaCarac(ETD* lixo){
 }
 
 void liberaAlg(CRTR* lixo){
-	CRTR* q;
-	while(lixo){
-		q = lixo->prox;
-		free(lixo);
-		lixo = q;
+	CRTR* q = lixo, *p = lixo;
+	while(q){
+		p = q;
+		q = p->prox;
+		free(p);
 	}
 }
