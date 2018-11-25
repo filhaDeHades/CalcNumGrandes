@@ -116,7 +116,7 @@ ETD* soma(ETD* num1, ETD* num2){
 	else{
 		num1->valor = '+';
 		resp = subtrai(num2, num1);
-		if(maiorMagnitude(num1, num2) == 1) resp->valor = '+';
+		if(maiorMagnitude(num1, num2) == 1) resp->valor = '-';
 		return resp;
 	}
 
