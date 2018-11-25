@@ -171,7 +171,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		resp->valor = '+';
 	else resp->valor = '-';
 
-	CRTR *aux = numb2->prox; // aponta por pirmeiro caracter da lista
+	CRTR* aux = numb2->prox; // aponta por primeiro caracter da lista
 	while (aux){
 		if (aux->car != 0) notZero2++; // determina se o número não é contido por zeros
 		CaracsNumb2 ++; // conta o número de caracteres de numb2
