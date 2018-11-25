@@ -5,13 +5,13 @@
 
 void tiraZero(ETD* num){
 	CRTR *p = num->prox, *q = num->prox;
-	while(q->car == 0){
-		free(p);
+	while((q->car)&&(q->car == 0)){
 		q = q->prox;
+		num->prox = q;
+		free(p);
 		p = q;
 	}
 }
-
 char operacao(void){
 	char op = '+';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
