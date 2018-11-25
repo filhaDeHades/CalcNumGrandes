@@ -1,6 +1,5 @@
 #include "2. etd.h"
 
-#define oi printf("oi2\n");
 
 //mechendo com o caracter de entrada
 

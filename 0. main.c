@@ -1,7 +1,6 @@
 // #include "2. etd.h"
 // #include "1. ng.h"
 #include "operacoes.h"
-#define oi printf("oi\n");
 
 
 int main(void){

@@ -90,8 +90,10 @@ ETD* soma(ETD* num1, ETD* num2){
 		resp = subtrai(num1, num2);
 		return resp;
 	}
-	else if(num1->valor='-' && num2->valor=='-') resp->valor = '-';
-	else if(num1->valor='+' && num2->valor=='+') resp->valor = '+';
+	else if(num1->valor=='-' && num2->valor=='-')
+		resp->valor = '-';
+	else if(num1->valor=='+' && num2->valor=='+')
+		resp->valor = '+';
 	else{
 		num1->valor = '+';
 		resp = subtrai(num2, num1);
