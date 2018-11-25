@@ -27,17 +27,18 @@ int main(void){
 		printf("\n");
 	} else if(oper == '-'){
 		printf("\nResultado da Subtração:\n");
-		/*ETD *subtraindo = subtrai(carc1, carc2);
-		escreveCarac(subtraindo);*/
+		ETD *subtraindo = subtrai(carc1, carc2);
+		escreveCarac(subtraindo);
 		printf("\n");
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
-		/*ETD *multiplicando = multiplica(carc1, carc2);
-		escreveCarac(multiplicando);*/
+		ETD *multiplicando = multiplica(carc1, carc2);
+		escreveCarac(multiplicando);
 		printf("\n");
 	} else if(oper == '/'){
 		printf("\nResultado da Divisão:\n");
-		/*ETD *dividindo = divide(carc1, carc2);
-		escreveCarac(dividindo);*/
+		ETD *dividindo = divide(carc1, carc2);
+		escreveCarac(dividindo);
 		printf("\n");
 	}
+}
