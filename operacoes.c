@@ -251,7 +251,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 }
 
 ETD* subtrai(ETD* num1, ETD* num2){
-	int maior =  maiorMagnitude(num1, num2), num = 0;
+	int maior =  maiorMagnitude(num1, num2), num = 0, emprest = 0;
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
@@ -262,34 +262,47 @@ ETD* subtrai(ETD* num1, ETD* num2){
 		printf("erro ao comparar magnitudes\n");
 		return resp;
 	}
-
-	if (((num1->valor == '+') && (num2->valor == '-')) || // num1 + num2
-		((num1->valor == '-') && (num2->valor == '+'))){ // -(num1 + num2) ou -num1 -num2
-		resp = soma(num1, num2);
-		return resp;
-	}
 	else if (maior == 0) { // são iguais
 		resp = insereComeco(resp, num); // resp é zero
 		return resp;
 	}
-	else if ((num1->valor == '-') && (num2->valor == '-')){ //num2 - num1
+	// sinais
+	if (((num1->valor == '+') && (num2->valor == '-')) || // num1 + num2
+		((num1->valor == '-') && (num2->valor == '+'))){ // -(num1 + num2) ou -num1 -num2
+		num2->valor = num1->valor;
+		resp = soma(num1, num2);
+		return resp;
+	}
+	else if (num2->valor == '-') num2->valor = '+';
+	else if (num2->valor == '+') num2->valor = '-';
+
+	if (maior == 1) resp->valor = num1->valor;
+	else if (maior == 2){
+		resp->valor = num2->valor;
 		numb1 = num2;
 		numb2 = num1;
-		if (maior == 1) resp->valor = num1->valor;
-		else if (maior == 2) resp->valor = num2->valor;
 	}
 
 	CRTR* n1 = numb1->ult, *n2 = numb2->ult; //start pelo fim
 
-	while ((n1) && (n2)){ // enquanto ambos tiverem caracteres
-		if (n1->car >= n2->car){
+	while ((n1 != NULL) && (n2 != NULL)){ // enquanto ambos tiverem caracteres
+		if ((n1->car >= n2->car) && (emprest == 0)){ // só vai subtrair normalmente se não for necessário pegar emprestado
 			num = n1->car - n2->car;
 			resp = insereComeco(resp, num);
 			n1 = n1->ant; // andando do menor significativo pro maior
 			n2 = n2->ant;
 		}
-		else{ //n1->car < n2->car => pegar emprestado
-			n1->ant->car -= 1;
+		else if ((n1->car > n2->car) && (emprest == 1)){
+			n1->car -= 1; // subtrai do emprestimo feito
+			emprest = 0;
+			num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+			n2 = n2->ant;
+		}
+		else{ // n1->car < n2->car => pegar emprestado (n1 < n2) || (n1 <)
+			if (n1->ant->car >= 1) n1->ant->car -= 1;
+			else emprest = 1; // armazenar a informação de q em algum momento será preciso pegar emprestado de um número >= 1
 			n1->car += 10;
 			num = n1->car - n2->car;
 			resp = insereComeco(resp, num);
@@ -297,8 +310,13 @@ ETD* subtrai(ETD* num1, ETD* num2){
 			n2 = n2->ant;
 		}
 	}
+
 	if ((n1) && (!n2)){ // quando não houver mais n2 (maior == 1)
 		while (n1){
+			if ((n1->car > 0) && (emprest == 1)){
+				n1->car -= 1;
+				emprest = 0;
+			}
 			num = n1->car;
 			resp = insereComeco(resp, num);
 			n1 = n1->ant;
