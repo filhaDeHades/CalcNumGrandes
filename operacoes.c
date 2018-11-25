@@ -53,7 +53,6 @@ ETD* divide(ETD* num1, ETD* num2){
 	somador = insereComeco(somador, 1);
 	somador->valor = '+';
 
-
 	//n1 é 0
 	if (maiorMagnitude(somar, n1)==0){
 		resp->valor = '+';

@@ -25,7 +25,7 @@ obs: A função foi feita mas n esta sendo usada, possivelmente será excluida.
 
 ## Quem fez o que?
 
-#### Ágatha: 
+#### Ágatha:
 ETD* insereComeco(ETD* palavra, int num);
 ETD* multiplica(ETD* num1, ETD* num2);
 ETD* subtrai(ETD* num1, ETD* num2);
