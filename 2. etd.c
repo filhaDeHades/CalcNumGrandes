@@ -16,7 +16,7 @@ void tiraZero(ETD* num){
 
 //Menu do programa
 char operacao(void){
-	char op = '+';
+	char op = 'p';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
 	printf("\e[33m+ ---------- Adição\n");
 	printf("- ---------- Subtração\n");

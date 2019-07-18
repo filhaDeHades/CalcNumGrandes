@@ -47,7 +47,6 @@
 		}
 	}
 }*/
-/*
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
@@ -335,7 +334,6 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 	return resp;
 }
-*/
 
 //retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
 int maiorMagnitude(ETD* n1, ETD* n2){
@@ -364,10 +362,11 @@ int maiorMagnitude(ETD* n1, ETD* n2){
 
 
 ETD* soma(ETD* num1, ETD* num2){
+	printf("PQ N TA PRINTANDO\n");
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
-	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
+	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult; oi
 
-	while((aux1)||(aux2)){
+	while((aux1)||(aux2)){ oi
 		if((aux1)&&(aux2)){
 			int x = aux1->car + aux2->car;
 			printf("X = %d", x);
@@ -392,11 +391,12 @@ ETD* soma(ETD* num1, ETD* num2){
 	liberaCarac(descart2);
 	return resp;
 }
-
+//PROBLEMAS COM O CHAR
 //Verifica se a operação feita será adição ou subtração
 ETD* verifica(ETD* num1, ETD* num2, char oper){
+	printf("OPER = %c\n", oper.type);
 	ETD* resp = NULL;
-	if(oper == "+"){
+	if(oper == "+"){ oi
 		//contaremos o sinal como ele é
 		if(num1->valor == num2->valor){
 			resp = soma(num1, num2);

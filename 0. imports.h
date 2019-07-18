@@ -4,3 +4,4 @@
 #include <math.h>
 
 #define jump printf("\n");
+#define oi printf("\n");
