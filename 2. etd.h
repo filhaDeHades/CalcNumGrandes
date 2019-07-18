@@ -30,6 +30,9 @@ CRTR* invC(CRTR* num);
 //Cria uma lista com os números já invertidos
 ETD* insereComeco(ETD* palavra, int num);
 
+//Copia um número
+ETD* copia(ETD* num);
+
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void);

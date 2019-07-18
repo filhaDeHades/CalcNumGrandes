@@ -73,6 +73,19 @@ ETD* insereComeco(ETD* palavra, int num){
 	palavra->prim = novo;
 }
 
+//Copia um número
+ETD* copia(ETD* num){
+	if(!num) return NULL;
+	ETD* cop = inicializaSinal();
+	CRTR *aux = num->ult;
+
+	cop->valor = num->valor;
+	while(aux){
+		cop = insereComeco(cop, aux->car);
+		aux = aux->ant;
+	}
+	return cop;
+}
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void){
@@ -209,10 +222,11 @@ void liberaCarac(ETD* lixo){
 	CRTR *q, *p = lixo->prim;
 	free(lixo);
 	while(p){
-		q = p->prox;
-		free(p);
-		p = q;
+		q = p;
+		p = p->prox;
+		free(q);
 	}
+	free(lixo);
 }
 
 //Libera apenas os caracteres
@@ -220,7 +234,7 @@ void liberaAlg(CRTR* lixo){
 	CRTR* q = lixo, *p = lixo;
 	while(q){
 		p = q;
-		q = p->prox;
+		q = q->prox;
 		free(p);
 	}
 }
