@@ -1,7 +1,7 @@
 #include "operacoes.h"
 // #include "2. etd.h"
 
-int maiorMagnitude(ETD* num1, ETD* num2){
+/*int maiorMagnitude(ETD* num1, ETD* num2){
 
 	if (num2->prim->car==0){
 		if (num1->prim->car!=0)
@@ -46,7 +46,7 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 			} else return maior;
 		}
 	}
-}
+}*/
 
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
@@ -109,8 +109,7 @@ ETD* soma(ETD* num1, ETD* num2){
 
 	// if (maiorMagnitude(num1, num))
 
-	if (num1->valor=='+' && num2->valor=='-'){
-		num2->valor = '+';
+	if (num1->valor=='+' && num2->valor=='-'){//verificar isso depois
 		resp = subtrai(num1, num2);
 		return resp;
 	}
@@ -118,8 +117,7 @@ ETD* soma(ETD* num1, ETD* num2){
 		resp->valor = '-';
 	else if(num1->valor=='+' && num2->valor=='+')
 		resp->valor = '+';
-	else{
-		num1->valor = '+';
+	else{//verificar isso depois
 		resp = subtrai(num2, num1);
 		if(maiorMagnitude(num1, num2) == 1) resp->valor = '-';
 		return resp;
@@ -409,4 +407,37 @@ ETD* multiplica(ETD* num1, ETD* num2){
 	}
 
 	return resp;
+}
+
+
+//Fazer uma função para definir se a operação que será feita será adição ou subtração
+
+//retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
+int maiorMagnitude(ETD* n1, ETD* n2){
+	CRTR *aux1 = n1->ult, *aux2 = n2->ult;
+
+	if((!aux1)&&(!aux2)) return 0;
+
+	while((aux1)||(aux2)){
+		if(!aux1) return -1;
+		if(!aux2) return 1;
+		aux1 = aux1->ant;
+		aux2 = aux2->ant;
+	}
+	aux1 = n1->ult;
+	aux2 = n2->ult;
+	while((aux1)||(aux2)){
+		if(aux1->car > aux2->car) return 1;
+		if(aux2->car > aux1->car) return -1;
+		aux1 = aux1->ant;
+		aux2 = aux2->ant;
+	}
+	return 0;
+}
+
+ETD* trocaSinal(ETD* num1, ETD* num2){
+	if(num1->valor == num2->valor){
+		//significa que contaremos como os sinal sendo diferente
+	}
+	
 }

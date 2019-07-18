@@ -86,9 +86,9 @@ ETD* inicializaSinal(void){
 //Inicializa a estrutura CRTR
 CRTR* inicializaCarac(int n){
 	CRTR* q = (CRTR*)malloc(sizeof(CRTR));
-	q->ant = (CRTR*) NULL;
+	q->ant = NULL;
 	q->car = n; //estamos lidando com int, não char, logo não há a necessidade de diminuir 48
-	q->prox = (CRTR*) NULL;
+	q->prox = NULL;
 	return q;
 }
 
