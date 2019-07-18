@@ -3,13 +3,13 @@
 
 int maiorMagnitude(ETD* num1, ETD* num2){
 
-	if (num2->prox->car==0){
-		if (num1->prox->car!=0)
+	if (num2->prim->car==0){
+		if (num1->prim->car!=0)
 			return 1;
 		else return 0;
 	}
-	if(num1->prox->car==0){
-		if (num2->prox->car!=0)
+	if(num1->prim->car==0){
+		if (num2->prim->car!=0)
 			return 2;
 		else return 0;
 	}
@@ -51,17 +51,17 @@ int maiorMagnitude(ETD* num1, ETD* num2){
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	resp->prox = NULL;
+	resp->prim = NULL;
 	ETD* contador = (ETD*)malloc(sizeof(ETD));
 	contador->valor = '+';
-	contador->prox = NULL;
+	contador->prim = NULL;
 	contador = insereComeco(contador, 0);
 	ETD* somar = (ETD*)malloc(sizeof(ETD));
-	somar->prox = NULL;
+	somar->prim = NULL;
 	somar = insereComeco(somar, 0);
 	somar->valor = '+';
 	ETD* somador = (ETD*)malloc(sizeof(ETD));
-	somador->prox = NULL;
+	somador->prim = NULL;
 	somador = insereComeco(somador, 1);
 	somador->valor = '+';
 
@@ -98,14 +98,14 @@ ETD* divide(ETD* num1, ETD* num2){
 
 	}while(maior==2);
 
-	resp->prox = contador->prox;
+	resp->prim = contador->prim;
 	return resp;
 }
 
 ETD* soma(ETD* num1, ETD* num2){
 
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	resp->prox = NULL;
+	resp->prim = NULL;
 
 	// if (maiorMagnitude(num1, num))
 
@@ -183,7 +183,7 @@ ETD* subtrai(ETD* num1, ETD* num2){
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
-	resp->prox = NULL;
+	resp->prim = NULL;
 	resp->ult = NULL;
 
 	if (maior == -1){
@@ -265,17 +265,17 @@ ETD* subtrai(ETD* num1, ETD* num2){
 ETD * multiplica2(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	resp->prox = NULL;
+	resp->prim = NULL;
 	ETD* contador = (ETD*)malloc(sizeof(ETD));
 	contador->valor = '+';
-	contador->prox = NULL;
+	contador->prim = NULL;
 	contador = insereComeco(contador, 0);
 	ETD* somar = (ETD*)malloc(sizeof(ETD));
-	somar->prox = NULL;
+	somar->prim = NULL;
 	somar = insereComeco(somar, 0);
 	somar->valor = '+';
 	ETD* somador = (ETD*)malloc(sizeof(ETD));
-	somador->prox = NULL;
+	somador->prim = NULL;
 	somador = insereComeco(somador, 1);
 	somador->valor = '+';
 
@@ -305,7 +305,7 @@ ETD * multiplica2(ETD* num1, ETD* num2){
 		maior = maiorMagnitude(contador, n2);
 	}while(maior!=0);
 
-	resp->prox = somar->prox;
+	resp->prim = somar->prim;
 
 	return resp;
 }
@@ -316,10 +316,10 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); // lista resultante
-	resp->prox = NULL;
+	resp->prim = NULL;
 	resp->ult = NULL;
 
-	if ((num1->prox == NULL) || (num2->prox == NULL)){ // um ou mais deles é contido apenas por zero
+	if ((num1->prim == NULL) || (num2->prim == NULL)){ // um ou mais deles é contido apenas por zero
 		resp = insereComeco(resp, num);
 		return resp;
 	}
@@ -334,13 +334,13 @@ ETD* multiplica(ETD* num1, ETD* num2){
 		resp->valor = '+';
 	else resp->valor = '-';
 
-	CRTR* aux = numb2->prox; // aponta por primeiro caracter da lista
+	CRTR* aux = numb2->prim; // aponta por primeiro caracter da lista
 	while (aux != NULL){
 		CaracsNumb2 ++; // conta o número de caracteres de numb2
 		aux = aux->prox;
 	}
 
-	aux = numb1->prox; // aponta por pirmeiro caracter da lista
+	aux = numb1->prim; // aponta por pirmeiro caracter da lista
 	while (aux != NULL){
 		CaracsNumb1 ++; // conta o número de caracteres de numb1
 		aux = aux->prox;

@@ -1,18 +1,20 @@
 #include "2. etd.h"
 
 
-//mechendo com o caracter de entrada
+//---------------------------------- Usando os caracteres de entrada -------------------------------------
 
+//Tira os zeros a esquerda do número
 void tiraZero(ETD* num){
-	CRTR *p = num->prox, *q = num->prox;
+	CRTR *p, *q = num->prim;
 	while((q->car)&&(q->car == 0)){
-		q = q->prox;
-		num->prox = q;
-		free(p);
 		p = q;
+		q = q->prox;
+		num->prim = q;
+		free(p);
 	}
 }
 
+//Menu do programa
 char operacao(void){
 	char op = '+';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
@@ -27,7 +29,9 @@ char operacao(void){
 	}
 	return op;
 }
-	//andando até o final da lista de caracter
+
+//---------------------------------------- Funções de Suporte --------------------------------------------
+//Retorna o último algarismo do número
 CRTR* andarFinal(CRTR* palavra){
 	if(palavra)
 		while(palavra->prox)
@@ -35,7 +39,7 @@ CRTR* andarFinal(CRTR* palavra){
 	return palavra;
 }
 
-	//inserir números ao contrario
+//inserir os números invertidos
 CRTR* insC(CRTR* lista, int n){
 	CRTR* novo = (CRTR*)malloc(sizeof(CRTR));
 	novo->car = n;
@@ -44,11 +48,11 @@ CRTR* insC(CRTR* lista, int n){
 	if(lista) lista->ant = novo;
 	return novo;
 }
-	//inverter os números
+
+//inverte os números
 CRTR* invC(CRTR* num){
 	CRTR *inv = (CRTR*) NULL;
-	CRTR *fim = (CRTR*)malloc(sizeof(CRTR));
-	fim = num;
+	CRTR *fim = num;
 	while(fim){
 		inv = insC(inv, fim->car);
 		fim = fim->prox;
@@ -56,6 +60,30 @@ CRTR* invC(CRTR* num){
 	return inv;
 }
 
+//Cria uma lista com os números já invertidos
+ETD* insereComeco(ETD* palavra, int num){
+	CRTR *novo = (CRTR*)malloc(sizeof(CRTR));
+	novo->car = num;
+	novo->ant = NULL;
+	novo->prox = palavra->prim;
+	if (palavra->prim)
+		palavra->prim->ant = novo;
+	else
+		palavra->ult = novo;
+	palavra->prim = novo;
+}
+
+//------------------------------------------ Inicializadores ----------------------------------------------
+//Inicializa a estrutura ETD
+ETD* inicializaSinal(void){
+	ETD* p = (ETD*)malloc(sizeof(ETD));
+	//'\0' é o NULL do char
+	p->valor = '\0';
+	p->prim = (CRTR*) NULL;
+	return p;
+}
+
+//Inicializa a estrutura CRTR
 CRTR* inicializaCarac(int n){
 	CRTR* q = (CRTR*)malloc(sizeof(CRTR));
 	q->ant = (CRTR*) NULL;
@@ -64,30 +92,35 @@ CRTR* inicializaCarac(int n){
 	return q;
 }
 
-ETD* inicializaSinal(void){
-	ETD* p = (ETD*)malloc(sizeof(ETD));
-	//'\0' é o NULL do char
-	p->valor = '\0';
-	p->prox = (CRTR*) NULL;
-	return p;
+//Adiciona os valores a estrutura
+ETD* inicializacaoCarac(int n){
+	ETD* palavra = inicializaSinal();
+	printf("\e[32mDigite o %dº número: \e[m", n);
+	palavra = criaCarac(palavra);
+	printf("\n");
+	return palavra;
 }
-
+//--------------------------------- Adicionando algarismos a estrutura ------------------------------------
+//Adiciona o valor do sinal a estrutura
 ETD* sinal(ETD* palavra){
 	char n;
 	while(1){
 		scanf(" %c", &n);
 		if((n == '+')||(n == '-')){
 			palavra->valor = n;
-			palavra->prox = (CRTR*) NULL;
+			palavra->prim = (CRTR*) NULL;
 			break;
 		}
 		else {
 			//repete o print duas vezes, n sei pq
 			printf("\e[31mDigite um valor válido para o sinal:\n\e[m");
+			continue;
 		}
 	}
 	return palavra;
 }
+
+//Valida o caracter que será adicionado na estrutura
 void validCarac(ETD* pal, CRTR** num, char carac){
 	CRTR *aux = (CRTR*) malloc(sizeof(CRTR));
 	aux->car = carac-48;
@@ -104,22 +137,10 @@ void validCarac(ETD* pal, CRTR** num, char carac){
 	}
 }
 
-ETD* insereComeco(ETD* palavra, int num){
-	CRTR *novo = (CRTR*)malloc(sizeof(CRTR));
-	novo->car = num;
-	novo->ant = NULL;
-	novo->prox = palavra->prox;
-	if (palavra->prox)
-		palavra->prox->ant = novo;
-	else
-		palavra->ult = novo;
-	palavra->prox = novo;
-}
-
-
+//Adiciona o valor de número na estrutura
 ETD* addCarac(ETD* palavra){
 	CRTR *num;
-	num = palavra->prox;
+	num = palavra->prim;
 	char m;
 	while(1){
 		scanf("%c", &m);
@@ -134,41 +155,35 @@ ETD* addCarac(ETD* palavra){
 			break;
 		}
 	}
-	palavra->prox = num;
+	palavra->prim = num;
 	return palavra;
 }
-	//cria efetivamente o caracter
+
+//Cria efetivamente o caracter
 ETD* criaCarac(ETD* palavra){
 	//add o sinal do número
 	printf("\n\e[33mDigite o número com o sinal: \e[m\n");
 	palavra = sinal(palavra);
 
 	//add os caracteres do número
-	palavra->prox = (CRTR*) NULL;
+	palavra->prim = (CRTR*) NULL;
 	palavra = addCarac(palavra);
-	if(palavra->prox == (CRTR*) NULL){
+	if(palavra->prim == (CRTR*) NULL){
 		CRTR* o = (CRTR*)malloc(sizeof(CRTR));
 		o->car = 0;
 		o->ant = (CRTR*) NULL;
 		o->prox = (CRTR*) NULL;
-		palavra->prox = o;
+		palavra->prim = o;
 		palavra->ult = o;
 	}
 	return palavra;
 }
 
-ETD* inicializacaoCarac(int n){
-	ETD* palavra = inicializaSinal();
-	printf("\e[32mDigite o %dº número: \e[m", n);
-	palavra = criaCarac(palavra);
-	printf("\n");
-	return palavra;
-}
-
-	//printando o caracter
+//------------------------------------- Printando os números ----------------------------------------------
+//Printando a estrutura principal
 void escreveCarac(ETD* palavra){
 	ETD *p = palavra;
-	CRTR *q = palavra->prox;
+	CRTR *q = palavra->prim;
 	printf("%c", p->valor);
 	while(q){
 		printf("%d", q->car);
@@ -178,6 +193,7 @@ void escreveCarac(ETD* palavra){
 
 }
 
+//Printando os algarismos
 void escreveAlg(CRTR* lista){
 	CRTR *p = lista;
 	while(p){
@@ -187,8 +203,10 @@ void escreveAlg(CRTR* lista){
 	printf("\n");
 }
 
+//------------------------------------------ Liberação ----------------------------------------------------
+//Libera a estrutura toda
 void liberaCarac(ETD* lixo){
-	CRTR *q, *p = lixo->prox;
+	CRTR *q, *p = lixo->prim;
 	free(lixo);
 	while(p){
 		q = p->prox;
@@ -197,6 +215,7 @@ void liberaCarac(ETD* lixo){
 	}
 }
 
+//Libera apenas os caracteres
 void liberaAlg(CRTR* lixo){
 	CRTR* q = lixo, *p = lixo;
 	while(q){
