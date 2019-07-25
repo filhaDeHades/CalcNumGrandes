@@ -1,52 +1,6 @@
 #include "operacoes.h"
 // #include "2. etd.h"
 
-/*int maiorMagnitude(ETD* num1, ETD* num2){
-
-	if (num2->prim->car==0){
-		if (num1->prim->car!=0)
-			return 1;
-		else return 0;
-	}
-	if(num1->prim->car==0){
-		if (num2->prim->car!=0)
-			return 2;
-		else return 0;
-	}
-
-	CRTR* n1 = num1->ult, *n2 = num2->ult;
-	int maior=-1;
-
-	if (n1->ant==NULL && n2->ant==NULL && n1->car==n2->car){
-		maior = 0;
-	}
-
-	while(1){
-		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
-			maior = 1;
-			return maior;
-		}
-		else if (n2->ant!=NULL && n1->ant==NULL){ //n2 possui mais caracteres
-			maior = 2;
-			return maior;
-		}
-		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
-			return maior;
-		}else{
-			if (n1->car>n2->car) {
-				maior = 1;
-			}
-			else if (n1->car<n2->car) maior = 2;
-			else if (n1->car==n2->car){
-				if (maior==-1) maior = 0;
-			}
-			if (n2->ant!=NULL && n1->ant!=NULL){
-				n1 = n1->ant;
-				n2 = n2->ant;
-			} else return maior;
-		}
-	}
-}*/
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
@@ -334,6 +288,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 	return resp;
 }
+// --------------------------------------------- NOVAS VERSÕES ------------------------------------------------
 
 //retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
 int maiorMagnitude(ETD* n1, ETD* n2){
@@ -359,7 +314,6 @@ int maiorMagnitude(ETD* n1, ETD* n2){
 }
 
 //Subtrai recebe como primeiro número aquele de maior magnitude
-
 
 ETD* soma(ETD* num1, ETD* num2){
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
@@ -412,7 +366,7 @@ ETD* soma(ETD* num1, ETD* num2){
 	return resp;
 }
 //PROBLEMAS COM O CHAR
-//Verifica se a operação feita será adição ou subtração
+//Verifica se a operação feita será a adição ou a subtração
 ETD* verifica(ETD* num1, ETD* num2, char oper){
 	ETD* resp = NULL;
 	if(oper == '+'){
@@ -454,6 +408,7 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 	}
 }
 
+//------------------------------------------ FIM NOVAS VERSÕES -----------------------------------------------
 
 /*ETD* soma(ETD* num1, ETD* num2){
 
@@ -527,4 +482,51 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 
 	if(vaiProProximo==1) resp = insereComeco(resp, vaiProProximo);
 	return resp;
+}*/
+
+/*int maiorMagnitude(ETD* num1, ETD* num2){
+
+	if (num2->prim->car==0){
+		if (num1->prim->car!=0)
+			return 1;
+		else return 0;
+	}
+	if(num1->prim->car==0){
+		if (num2->prim->car!=0)
+			return 2;
+		else return 0;
+	}
+
+	CRTR* n1 = num1->ult, *n2 = num2->ult;
+	int maior=-1;
+
+	if (n1->ant==NULL && n2->ant==NULL && n1->car==n2->car){
+		maior = 0;
+	}
+
+	while(1){
+		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
+			maior = 1;
+			return maior;
+		}
+		else if (n2->ant!=NULL && n1->ant==NULL){ //n2 possui mais caracteres
+			maior = 2;
+			return maior;
+		}
+		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
+			return maior;
+		}else{
+			if (n1->car>n2->car) {
+				maior = 1;
+			}
+			else if (n1->car<n2->car) maior = 2;
+			else if (n1->car==n2->car){
+				if (maior==-1) maior = 0;
+			}
+			if (n2->ant!=NULL && n1->ant!=NULL){
+				n1 = n1->ant;
+				n2 = n2->ant;
+			} else return maior;
+		}
+	}
 }*/
