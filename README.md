@@ -58,3 +58,5 @@ Há uma função que retorna os algarismos invertidos, mas ela não está sendo 
 + void escreveAlg(CRTR* lista);
 + void liberaCarac(ETD* palavra);
 + void liberaAlg(CRTR* lixo);
++ int maiorMagnitude(ETD* n1, ETD* n2); (2ª versão)
++ ETD* verifica(ETD* num1, ETD* num2, char oper);

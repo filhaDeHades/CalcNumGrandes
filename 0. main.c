@@ -1,42 +1,35 @@
-// #include "2. etd.h"
-// #include "1. ng.h"
+
 #include "operacoes.h"
 
 
 int main(void){
 	ETD *carc1 = inicializacaoCarac(1);
 	ETD *carc2 = inicializacaoCarac(2);
-	printf("%d \n", maiorMagnitude(carc1, carc2));
+
+
 	CRTR  *inv2;
 	char oper;
 	oper = operacao();
 	printf("Operação: %c", oper);
 	printf("\n");
 
-	printf("\nÚltimo caracter do 1º número: %d\n\n", carc1->ult->car);
-	printf("\nNum1\n");
-	escreveCarac(carc1);
-	printf("\nNum2:\n");
-	escreveCarac(carc2);
+	if((oper == '+')||(oper == '-')){
+		if(oper == '+') printf("\nResultado da Soma:\n");
+		else printf("\nResultado da Subtração:\n");
+		ETD *resp = verifica(carc1, carc2, oper);
+		escreveCarac(resp);
+		liberaCarac(resp);
+		printf("\n");
 
-	if(oper == '+'){
-		printf("\nResultado da Soma:\n");
-		ETD *somamdo = soma(carc1, carc2);
-		escreveCarac(somamdo);
-		liberaCarac(somamdo);
-		printf("\n");
-	} else if(oper == '-'){
-		printf("\nResultado da Subtração:\n");
-		ETD *subtraindo = subtrai(carc1, carc2);
-		escreveCarac(subtraindo);
-		liberaCarac(subtraindo);
-		printf("\n");
+
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
 		ETD *multiplicando = multiplica(carc1, carc2);
 		escreveCarac(multiplicando);
 		liberaCarac(multiplicando);
 		printf("\n");
+
+
 	} else if(oper == '/'){
 		printf("\nResultado da Divisão:\n");
 		ETD* zero = (ETD*)malloc(sizeof(ETD));
@@ -49,6 +42,7 @@ int main(void){
 		else printf("Não podemos dividir numero por 0");
 		liberaCarac(zero);
 		printf("\n");
+
 	}
 	liberaCarac(carc1);
 	liberaCarac(carc2);

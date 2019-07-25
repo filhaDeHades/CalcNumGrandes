@@ -16,7 +16,7 @@ void tiraZero(ETD* num){
 
 //Menu do programa
 char operacao(void){
-	char op = '+';
+	char op = 'p';
 	printf("\e[32mQual das operações abaixo você quer fazer com esses números: \n\e[m");
 	printf("\e[33m+ ---------- Adição\n");
 	printf("- ---------- Subtração\n");
@@ -73,6 +73,19 @@ ETD* insereComeco(ETD* palavra, int num){
 	palavra->prim = novo;
 }
 
+//Copia um número
+ETD* copia(ETD* num){
+	if(!num) return NULL;
+	ETD* cop = inicializaSinal();
+	CRTR *aux = num->ult;
+
+	cop->valor = num->valor;
+	while(aux){
+		cop = insereComeco(cop, aux->car);
+		aux = aux->ant;
+	}
+	return cop;
+}
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void){
@@ -86,9 +99,9 @@ ETD* inicializaSinal(void){
 //Inicializa a estrutura CRTR
 CRTR* inicializaCarac(int n){
 	CRTR* q = (CRTR*)malloc(sizeof(CRTR));
-	q->ant = (CRTR*) NULL;
+	q->ant = NULL;
 	q->car = n; //estamos lidando com int, não char, logo não há a necessidade de diminuir 48
-	q->prox = (CRTR*) NULL;
+	q->prox = NULL;
 	return q;
 }
 
@@ -121,9 +134,10 @@ ETD* sinal(ETD* palavra){
 }
 
 //Valida o caracter que será adicionado na estrutura
-void validCarac(ETD* pal, CRTR** num, char carac){
+void validCarac(ETD* pal, CRTR** num, char *carac){
 	CRTR *aux = (CRTR*) malloc(sizeof(CRTR));
-	aux->car = carac-48;
+	char auxilia = *carac;
+	aux->car = auxilia - 48;
 	aux->prox = (CRTR*) NULL;
 	pal->ult = aux;
 	if(!*num){
@@ -144,12 +158,12 @@ ETD* addCarac(ETD* palavra){
 	char m;
 	while(1){
 		scanf("%c", &m);
-		if(m == 48){
+		if( m == 48){
 			if(num)
-				validCarac(palavra, &num, m);
+				validCarac(palavra, &num, &m);
 		}
 		else if((m >= 49)&&(m <= 57)){
-			validCarac(palavra, &num, m);
+			validCarac(palavra, &num, &m);
 		}
 		else if(m == '\n'){
 			break;
@@ -184,7 +198,7 @@ ETD* criaCarac(ETD* palavra){
 void escreveCarac(ETD* palavra){
 	ETD *p = palavra;
 	CRTR *q = palavra->prim;
-	printf("%c", p->valor);
+	printf(" %c", p->valor);
 	while(q){
 		printf("%d", q->car);
 		q = q->prox;
@@ -209,10 +223,11 @@ void liberaCarac(ETD* lixo){
 	CRTR *q, *p = lixo->prim;
 	free(lixo);
 	while(p){
-		q = p->prox;
-		free(p);
-		p = q;
+		q = p;
+		p = p->prox;
+		free(q);
 	}
+	free(lixo);
 }
 
 //Libera apenas os caracteres
@@ -220,7 +235,7 @@ void liberaAlg(CRTR* lixo){
 	CRTR* q = lixo, *p = lixo;
 	while(q){
 		p = q;
-		q = p->prox;
+		q = q->prox;
 		free(p);
 	}
 }
