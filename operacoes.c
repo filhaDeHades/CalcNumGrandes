@@ -1,7 +1,7 @@
 #include "operacoes.h"
 // #include "2. etd.h"
 
-/*int maiorMagnitude(ETD* num1, ETD* num2){
+int maiorMagnitude(ETD* num1, ETD* num2){
 
 	if (num2->prim->car==0){
 		if (num1->prim->car!=0)
@@ -46,7 +46,8 @@
 			} else return maior;
 		}
 	}
-}*/
+}
+
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
@@ -101,6 +102,81 @@ ETD* divide(ETD* num1, ETD* num2){
 	return resp;
 }
 
+ETD* soma(ETD* num1, ETD* num2){
+
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
+	resp->prim = NULL;
+
+	// if (maiorMagnitude(num1, num))
+
+	if (num1->valor=='+' && num2->valor=='-'){
+		num2->valor = '+';
+		resp = subtrai(num1, num2);
+		return resp;
+	}
+	else if(num1->valor=='-' && num2->valor=='-')
+		resp->valor = '-';
+	else if(num1->valor=='+' && num2->valor=='+')
+		resp->valor = '+';
+	else{
+		num1->valor = '+';
+		resp = subtrai(num2, num1);
+		if(maiorMagnitude(num1, num2) == 1) resp->valor = '-';
+		return resp;
+	}
+
+	int soma = 0, vaiProProximo = 0;
+
+	CRTR* n1 = num1->ult, *n2 = num2->ult;
+	int c=0, aux=-1;
+
+	while(1){
+		if(n1->ant==NULL && c==1 && aux!=1){ //quando n2 é maior que n1 e está no final
+			soma = n2->car + vaiProProximo;
+			if(soma>9){
+				soma = soma - 10;
+				vaiProProximo = 1;
+			}
+			else vaiProProximo = 0;
+		}else if(n2->ant==NULL && c==1 && aux!=2){ //quando n1 é maior que n1 e está no final
+			soma = n1->car + vaiProProximo;
+			if(soma>9){
+				soma = soma - 10;
+				vaiProProximo = 1;
+			}
+			else vaiProProximo = 0;
+		}
+		else{
+			soma = n1->car + n2->car + vaiProProximo;
+			if(soma>9){
+				soma = soma - 10;
+				vaiProProximo = 1;
+			}
+			else vaiProProximo = 0;
+		}
+
+		if((n1->ant!=NULL) && (n2->ant==NULL)){ //n1 possui mais casas
+			n1 = n1->ant;
+			if(n1->ant==NULL) aux = 1;
+			c = 1;
+		}else if(n2->ant!=NULL && (n1->ant==NULL)){ //n2 possui mais casas
+			n2 = n2->ant;
+			if(n2->ant==NULL) aux = 2;
+			c = 1;
+		}else if(n1->ant!=NULL && n2->ant!=NULL){
+			n1 = n1->ant;
+			n2 = n2->ant;
+		}else{
+			resp = insereComeco(resp, soma);
+			break;
+		}
+		resp = insereComeco(resp, soma);
+		soma = 0;
+	}
+
+	if(vaiProProximo==1) resp = insereComeco(resp, vaiProProximo);
+	return resp;
+}
 
 ETD* subtrai(ETD* num1, ETD* num2){
 	int maior =  maiorMagnitude(num1, num2), num = 0, emprest = 0;
@@ -334,197 +410,3 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 	return resp;
 }
-
-//retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
-int maiorMagnitude(ETD* n1, ETD* n2){
-	CRTR *aux1 = n1->ult, *aux2 = n2->ult;
-
-	if((!aux1)&&(!aux2)) return 0;
-
-	while((aux1)||(aux2)){
-		if(!aux1) return -1;
-		if(!aux2) return 1;
-		aux1 = aux1->ant;
-		aux2 = aux2->ant;
-	}
-	aux1 = n1->ult;
-	aux2 = n2->ult;
-	while((aux1)||(aux2)){
-		if(aux1->car > aux2->car) return 1;
-		if(aux2->car > aux1->car) return -1;
-		aux1 = aux1->ant;
-		aux2 = aux2->ant;
-	}
-	return 0;
-}
-
-//Subtrai recebe como primeiro número aquele de maior magnitude
-
-
-ETD* soma(ETD* num1, ETD* num2){
-	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
-	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
-
-	while((aux1)||(aux2)){
-		if((aux1)&&(aux2)){
-			int x = aux1->car + aux2->car;
-			printf("X = %d\n", x);
-			if(x > 9){
-				if(aux1->ant) aux1->ant->car += (int)x/10;
-				else aux1->ant = inicializaCarac((int)x/10);
-				resp = insereComeco(resp, x%10);
-			}
-			else{
-				resp = insereComeco(resp, x);
-			}
-		}
-		else if(aux1){
-			int x = aux1->car;
-			if(x > 9){
-				if(aux1->ant) aux1->ant->car += (int)x/10;
-				else aux1->ant = inicializaCarac((int)x/10);
-				resp = insereComeco(resp, x%10);
-			}
-			else{
-				resp = insereComeco(resp, aux1->car);
-			}
-		}
-		else{
-			int x = aux2->car;
-			if(x > 9){
-				if(aux2->ant) aux2->ant->car += (int)x/10;
-				else aux2->ant = inicializaCarac((int)x/10);
-				resp = insereComeco(resp, x%10);
-			}
-			else{
-				resp = insereComeco(resp, aux2->car);
-			}
-		}
-		if((aux1)&&(aux1->ant)) aux1 = aux1->ant;
-		else aux1 = NULL;
-		if((aux2)&&(aux2->ant)) aux2 = aux2->ant;
-		else{
-			aux2 = NULL;
-		}
-	}
-	liberaCarac(descart1);
-	liberaCarac(descart2);
-	return resp;
-}
-//PROBLEMAS COM O CHAR
-//Verifica se a operação feita será adição ou subtração
-ETD* verifica(ETD* num1, ETD* num2, char oper){
-	ETD* resp = NULL;
-	if(oper == '+'){
-		//contaremos o sinal como ele é
-		if(num1->valor == num2->valor){
-			resp = soma(num1, num2);
-			resp->valor = num1->valor;
-		}
-		else{
-			int x = maiorMagnitude(num1, num2);
-			if((x == 0)||(x == 1)){
-				resp = subtrai(num1, num2);
-				resp->valor = num1->valor;
-			} else{
-				resp = subtrai(num2, num1);
-				resp->valor = num2->valor;
-			}
-		}
-	}
-	else{
-		//significa que contaremos como o sinal trocado
-		if(num1->valor != num2->valor){
-			resp = soma(num1, num2);
-			resp->valor = num1->valor;
-		}
-		else{
-			int x = maiorMagnitude(num1, num2);
-			if((x == 0)||(x == 1)){
-				resp = subtrai(num1, num2);
-				resp->valor = num1->valor;
-			} else{
-				resp = subtrai(num2, num1);
-				if(num2->valor == '+')
-					resp->valor = '-';
-				else
-					resp->valor = '+';
-			}
-		}
-	}
-}
-
-
-/*ETD* soma(ETD* num1, ETD* num2){
-
-	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	resp->prim = NULL;
-
-	// if (maiorMagnitude(num1, num))
-
-	if (num1->valor=='+' && num2->valor=='-'){//verificar isso depois
-		resp = subtrai(num1, num2);
-		return resp;
-	}
-	else if(num1->valor=='-' && num2->valor=='-')
-		resp->valor = '-';
-	else if(num1->valor=='+' && num2->valor=='+')
-		resp->valor = '+';
-	else{//verificar isso depois
-		resp = subtrai(num2, num1);
-		if(maiorMagnitude(num1, num2) == 1) resp->valor = '-';
-		return resp;
-	}
-
-	int soma = 0, vaiProProximo = 0;
-
-	CRTR* n1 = num1->ult, *n2 = num2->ult;
-	int c=0, aux=-1;
-
-	while(1){
-		if(n1->ant==NULL && c==1 && aux!=1){ //quando n2 é maior que n1 e está no final
-			soma = n2->car + vaiProProximo;
-			if(soma>9){
-				soma = soma - 10;
-				vaiProProximo = 1;
-			}
-			else vaiProProximo = 0;
-		}else if(n2->ant==NULL && c==1 && aux!=2){ //quando n1 é maior que n1 e está no final
-			soma = n1->car + vaiProProximo;
-			if(soma>9){
-				soma = soma - 10;
-				vaiProProximo = 1;
-			}
-			else vaiProProximo = 0;
-		}
-		else{
-			soma = n1->car + n2->car + vaiProProximo;
-			if(soma>9){
-				soma = soma - 10;
-				vaiProProximo = 1;
-			}
-			else vaiProProximo = 0;
-		}
-
-		if((n1->ant!=NULL) && (n2->ant==NULL)){ //n1 possui mais casas
-			n1 = n1->ant;
-			if(n1->ant==NULL) aux = 1;
-			c = 1;
-		}else if(n2->ant!=NULL && (n1->ant==NULL)){ //n2 possui mais casas
-			n2 = n2->ant;
-			if(n2->ant==NULL) aux = 2;
-			c = 1;
-		}else if(n1->ant!=NULL && n2->ant!=NULL){
-			n1 = n1->ant;
-			n2 = n2->ant;
-		}else{
-			resp = insereComeco(resp, soma);
-			break;
-		}
-		resp = insereComeco(resp, soma);
-		soma = 0;
-	}
-
-	if(vaiProProximo==1) resp = insereComeco(resp, vaiProProximo);
-	return resp;
-}*/
