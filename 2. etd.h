@@ -30,9 +30,6 @@ CRTR* invC(CRTR* num);
 //Cria uma lista com os números já invertidos
 ETD* insereComeco(ETD* palavra, int num);
 
-//Copia um número
-ETD* copia(ETD* num);
-
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void);
@@ -48,7 +45,7 @@ ETD* inicializacaoCarac(int n);
 ETD* sinal(ETD* palavra);
 
 //Valida o caracter que será adicionado na estrutura
-void validCarac(ETD* pal, CRTR** num, char *car);
+void validCarac(ETD* pal, CRTR** num, char car);
 
 //Adiciona o valor de número na estrutura
 ETD* addCarac(ETD* palavra);
