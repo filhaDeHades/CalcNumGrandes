@@ -134,9 +134,10 @@ ETD* sinal(ETD* palavra){
 }
 
 //Valida o caracter que será adicionado na estrutura
-void validCarac(ETD* pal, CRTR** num, char carac){
+void validCarac(ETD* pal, CRTR** num, char *carac){
 	CRTR *aux = (CRTR*) malloc(sizeof(CRTR));
-	aux->car = carac-48;
+	char auxilia = *carac;
+	aux->car = auxilia - 48;
 	aux->prox = (CRTR*) NULL;
 	pal->ult = aux;
 	if(!*num){
@@ -157,12 +158,12 @@ ETD* addCarac(ETD* palavra){
 	char m;
 	while(1){
 		scanf("%c", &m);
-		if(m == 48){
+		if( m == 48){
 			if(num)
-				validCarac(palavra, &num, m);
+				validCarac(palavra, &num, &m);
 		}
 		else if((m >= 49)&&(m <= 57)){
-			validCarac(palavra, &num, m);
+			validCarac(palavra, &num, &m);
 		}
 		else if(m == '\n'){
 			break;
@@ -197,7 +198,7 @@ ETD* criaCarac(ETD* palavra){
 void escreveCarac(ETD* palavra){
 	ETD *p = palavra;
 	CRTR *q = palavra->prim;
-	printf("%c", p->valor);
+	printf(" %c", p->valor);
 	while(q){
 		printf("%d", q->car);
 		q = q->prox;

@@ -362,30 +362,50 @@ int maiorMagnitude(ETD* n1, ETD* n2){
 
 
 ETD* soma(ETD* num1, ETD* num2){
-	printf("PQ N TA PRINTANDO\n");
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
-	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult; oi
+	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
 
-	while((aux1)||(aux2)){ oi
+	while((aux1)||(aux2)){
 		if((aux1)&&(aux2)){
 			int x = aux1->car + aux2->car;
-			printf("X = %d", x);
+			printf("X = %d\n", x);
 			if(x > 9){
-				printf("DIVISÃO = %d\nRESTO = %d\n", (int)x/10, x%10);
-				aux1->ant->car = (int)x/10;
+				if(aux1->ant) aux1->ant->car += (int)x/10;
+				else aux1->ant = inicializaCarac((int)x/10);
 				resp = insereComeco(resp, x%10);
 			}
-			else
+			else{
 				resp = insereComeco(resp, x);
+			}
 		}
 		else if(aux1){
-			resp = insereComeco(resp, aux1->car);
+			int x = aux1->car;
+			if(x > 9){
+				if(aux1->ant) aux1->ant->car += (int)x/10;
+				else aux1->ant = inicializaCarac((int)x/10);
+				resp = insereComeco(resp, x%10);
+			}
+			else{
+				resp = insereComeco(resp, aux1->car);
+			}
 		}
 		else{
-			resp = insereComeco(resp, aux2->car);
+			int x = aux2->car;
+			if(x > 9){
+				if(aux2->ant) aux2->ant->car += (int)x/10;
+				else aux2->ant = inicializaCarac((int)x/10);
+				resp = insereComeco(resp, x%10);
+			}
+			else{
+				resp = insereComeco(resp, aux2->car);
+			}
 		}
-		aux1 = aux1->ant;
-		aux2 = aux2->ant;
+		if((aux1)&&(aux1->ant)) aux1 = aux1->ant;
+		else aux1 = NULL;
+		if((aux2)&&(aux2->ant)) aux2 = aux2->ant;
+		else{
+			aux2 = NULL;
+		}
 	}
 	liberaCarac(descart1);
 	liberaCarac(descart2);
@@ -394,9 +414,8 @@ ETD* soma(ETD* num1, ETD* num2){
 //PROBLEMAS COM O CHAR
 //Verifica se a operação feita será adição ou subtração
 ETD* verifica(ETD* num1, ETD* num2, char oper){
-	printf("OPER = %c\n", oper.type);
 	ETD* resp = NULL;
-	if(oper == "+"){ oi
+	if(oper == '+'){
 		//contaremos o sinal como ele é
 		if(num1->valor == num2->valor){
 			resp = soma(num1, num2);
@@ -426,10 +445,10 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 				resp->valor = num1->valor;
 			} else{
 				resp = subtrai(num2, num1);
-				if(num2->valor == "+")
-					resp->valor = "-";
+				if(num2->valor == '+')
+					resp->valor = '-';
 				else
-					resp->valor = "+";
+					resp->valor = '+';
 			}
 		}
 	}

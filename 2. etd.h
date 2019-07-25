@@ -48,7 +48,7 @@ ETD* inicializacaoCarac(int n);
 ETD* sinal(ETD* palavra);
 
 //Valida o caracter que será adicionado na estrutura
-void validCarac(ETD* pal, CRTR** num, char car);
+void validCarac(ETD* pal, CRTR** num, char *car);
 
 //Adiciona o valor de número na estrutura
 ETD* addCarac(ETD* palavra);
