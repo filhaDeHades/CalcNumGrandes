@@ -287,6 +287,7 @@ ETD* multiplica(ETD* num1, ETD* num2){
 
 	return resp;
 }
+// --------------------------------------------- NOVAS VERSÕES ------------------------------------------------
 
 //retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
 int maiorMagnitude(ETD* n1, ETD* n2){
@@ -445,6 +446,7 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 	}
 }
 
+//------------------------------------------ FIM NOVAS VERSÕES -----------------------------------------------
 
 /*ETD* soma(ETD* num1, ETD* num2){
 
