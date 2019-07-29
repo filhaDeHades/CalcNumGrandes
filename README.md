@@ -23,7 +23,7 @@ Ou seja, se a entrada for o número 1234, a lista será armazenada como:
 se a entrada for 1, a lista será armazenada como:
 > **x- 1 -x**
 
-### ETD é o struct que é usado para lista que tera o sinal e os algarismos.
+### ETD é o struct usado para a lista, ele contém o sinal e os algarismos.
 
 Há uma função que retorna os algarismos invertidos, mas ela não está sendo usada.
 
@@ -60,3 +60,4 @@ Há uma função que retorna os algarismos invertidos, mas ela não está sendo 
 + void liberaAlg(CRTR* lixo);
 + int maiorMagnitude(ETD* n1, ETD* n2); (2ª versão)
 + ETD* verifica(ETD* num1, ETD* num2, char oper);
++ ETD* soma(ETD* num1, ETD* num2); (2ª versão)

@@ -1,52 +1,6 @@
 #include "operacoes.h"
 // #include "2. etd.h"
 
-/*int maiorMagnitude(ETD* num1, ETD* num2){
-
-	if (num2->prim->car==0){
-		if (num1->prim->car!=0)
-			return 1;
-		else return 0;
-	}
-	if(num1->prim->car==0){
-		if (num2->prim->car!=0)
-			return 2;
-		else return 0;
-	}
-
-	CRTR* n1 = num1->ult, *n2 = num2->ult;
-	int maior=-1;
-
-	if (n1->ant==NULL && n2->ant==NULL && n1->car==n2->car){
-		maior = 0;
-	}
-
-	while(1){
-		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
-			maior = 1;
-			return maior;
-		}
-		else if (n2->ant!=NULL && n1->ant==NULL){ //n2 possui mais caracteres
-			maior = 2;
-			return maior;
-		}
-		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
-			return maior;
-		}else{
-			if (n1->car>n2->car) {
-				maior = 1;
-			}
-			else if (n1->car<n2->car) maior = 2;
-			else if (n1->car==n2->car){
-				if (maior==-1) maior = 0;
-			}
-			if (n2->ant!=NULL && n1->ant!=NULL){
-				n1 = n1->ant;
-				n2 = n2->ant;
-			} else return maior;
-		}
-	}
-}*/
 ETD* divide(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
@@ -101,8 +55,7 @@ ETD* divide(ETD* num1, ETD* num2){
 	return resp;
 }
 
-
-ETD* subtrai(ETD* num1, ETD* num2){
+/*ETD* subtrai(ETD* num1, ETD* num2){
 	int maior =  maiorMagnitude(num1, num2), num = 0, emprest = 0;
 
 	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
@@ -184,7 +137,7 @@ ETD* subtrai(ETD* num1, ETD* num2){
 	}
 
 	return resp;
-}
+}*/
 
 ETD * multiplica2(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
@@ -360,7 +313,6 @@ int maiorMagnitude(ETD* n1, ETD* n2){
 
 //Subtrai recebe como primeiro número aquele de maior magnitude
 
-
 ETD* soma(ETD* num1, ETD* num2){
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
 	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
@@ -368,7 +320,6 @@ ETD* soma(ETD* num1, ETD* num2){
 	while((aux1)||(aux2)){
 		if((aux1)&&(aux2)){
 			int x = aux1->car + aux2->car;
-			printf("X = %d\n", x);
 			if(x > 9){
 				if(aux1->ant) aux1->ant->car += (int)x/10;
 				else aux1->ant = inicializaCarac((int)x/10);
@@ -411,7 +362,47 @@ ETD* soma(ETD* num1, ETD* num2){
 	liberaCarac(descart2);
 	return resp;
 }
-//PROBLEMAS COM O CHAR
+
+ETD* subtrai(ETD* num1, ETD* num2){
+	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
+	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
+
+	while((aux1)||(aux2)){
+		if((aux1)&&(aux2)){
+			if(aux1->car >= aux2->car){
+				int x = aux1->car - aux2->car;
+				resp = insereComeco(resp, x);
+			}
+			else{
+				CRTR* aux3 = aux1->ant;
+				while(aux3->ant == 0){ oi
+					aux3 = aux3->ant;
+				}
+				while(aux3 != aux1){
+					aux3->car -= 1;
+					aux3->prox->car += 10;
+					aux3 = aux3->prox;
+				}
+				int x = aux1->car - aux2->car;
+				resp = insereComeco(resp, x);
+				printf("AUX3 = ");
+				escreveAlg(descart1->prim);
+			}
+		}
+		else if(aux1){
+			resp = insereComeco(resp, aux1->car);
+		}
+		escreveCarac(resp);
+		if((aux1)&&(aux1->ant)) aux1 = aux1->ant;
+		else aux1 = NULL;
+		if((aux2)&&(aux2->ant)) aux2 = aux2->ant;
+		else aux2 = NULL;
+	}
+	liberaCarac(descart1);
+	liberaCarac(descart2);
+	return resp;
+}
+
 //Verifica se a operação feita será adição ou subtração
 ETD* verifica(ETD* num1, ETD* num2, char oper){
 	ETD* resp = NULL;
@@ -527,4 +518,51 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 
 	if(vaiProProximo==1) resp = insereComeco(resp, vaiProProximo);
 	return resp;
+}*/
+
+/*int maiorMagnitude(ETD* num1, ETD* num2){
+
+	if (num2->prim->car==0){
+		if (num1->prim->car!=0)
+			return 1;
+		else return 0;
+	}
+	if(num1->prim->car==0){
+		if (num2->prim->car!=0)
+			return 2;
+		else return 0;
+	}
+
+	CRTR* n1 = num1->ult, *n2 = num2->ult;
+	int maior=-1;
+
+	if (n1->ant==NULL && n2->ant==NULL && n1->car==n2->car){
+		maior = 0;
+	}
+
+	while(1){
+		if (n1->ant!=NULL && n2->ant==NULL){ //n1 possui mais caracteres
+			maior = 1;
+			return maior;
+		}
+		else if (n2->ant!=NULL && n1->ant==NULL){ //n2 possui mais caracteres
+			maior = 2;
+			return maior;
+		}
+		else if ((n2->ant==NULL && n1->ant==NULL) && (n1->car==n2->car)){
+			return maior;
+		}else{
+			if (n1->car>n2->car) {
+				maior = 1;
+			}
+			else if (n1->car<n2->car) maior = 2;
+			else if (n1->car==n2->car){
+				if (maior==-1) maior = 0;
+			}
+			if (n2->ant!=NULL && n1->ant!=NULL){
+				n1 = n1->ant;
+				n2 = n2->ant;
+			} else return maior;
+		}
+	}
 }*/
