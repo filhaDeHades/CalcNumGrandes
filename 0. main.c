@@ -11,24 +11,23 @@ int main(void){
 	char oper;
 	oper = operacao();
 	printf("Operação: %c", oper);
-	printf("\n");
+	jump
 
 	if((oper == '+')||(oper == '-')){
 		if(oper == '+') printf("\nResultado da Soma:\n");
 		else printf("\nResultado da Subtração:\n");
 		ETD *resp = verifica(carc1, carc2, oper);
+		tiraZero(resp);
 		escreveCarac(resp);
 		liberaCarac(resp);
-		printf("\n");
-
+		jump
 
 	} else if(oper == '*'){
 		printf("\nResultado da Multiplicação:\n");
 		ETD *multiplicando = multiplica(carc1, carc2);
 		escreveCarac(multiplicando);
 		liberaCarac(multiplicando);
-		printf("\n");
-
+		jump
 
 	} else if(oper == '/'){
 		printf("\nResultado da Divisão:\n");
@@ -41,7 +40,7 @@ int main(void){
 		}
 		else printf("Não podemos dividir numero por 0");
 		liberaCarac(zero);
-		printf("\n");
+		jump
 
 	}
 	liberaCarac(carc1);

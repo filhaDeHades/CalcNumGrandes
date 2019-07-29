@@ -55,90 +55,6 @@ ETD* divide(ETD* num1, ETD* num2){
 	return resp;
 }
 
-/*ETD* subtrai(ETD* num1, ETD* num2){
-	int maior =  maiorMagnitude(num1, num2), num = 0, emprest = 0;
-
-	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
-	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
-	resp->prim = NULL;
-	resp->ult = NULL;
-
-	if (maior == -1){
-		printf("erro ao comparar magnitudes\n");
-		return resp;
-	}
-	else if (maior == 0) { // são iguais
-		resp->valor = '+';
-		resp = insereComeco(resp, num); // resp é zero
-		return resp;
-	}
-	// sinais
-	if (((num1->valor == '+') && (num2->valor == '-')) || // num1 + num2
-		((num1->valor == '-') && (num2->valor == '+'))){ // -(num1 + num2) ou -num1 -num2
-		num2->valor = num1->valor;
-		resp = soma(num1, num2);
-		return resp;
-	}
-	else if (num2->valor == '-') num2->valor = '+';
-	else if (num2->valor == '+') num2->valor = '-';
-
-	if (maior == 1) resp->valor = num1->valor;
-	else if (maior == 2){
-		resp->valor = num2->valor;
-		numb1 = num2;
-		numb2 = num1;
-	}
-
-	CRTR* n1 = numb1->ult, *n2 = numb2->ult; //start pelo fim
-
-	while ((n1 != NULL) && (n2 != NULL)){ // enquanto ambos tiverem caracteres
-		if ((n1->car >= n2->car) && (emprest == 0)){ // só vai subtrair normalmente se não for necessário pegar emprestado
-			num = n1->car - n2->car;
-			resp = insereComeco(resp, num);
-			n1 = n1->ant; // andando do menor significativo pro maior
-			n2 = n2->ant;
-		}
-		else if ((n1->car > n2->car) && (emprest == 1)){
-			n1->car -= 1; // subtrai do emprestimo feito
-			emprest = 0;
-			num = n1->car - n2->car;
-			resp = insereComeco(resp, num);
-			n1 = n1->ant;
-			n2 = n2->ant;
-		}
-		else{ // n1->car < n2->car => pegar emprestado (n1 < n2) || (n1 <)
-			if (n1->ant->car >= 1) n1->ant->car -= 1;
-			else emprest = 1; // armazenar a informação de q em algum momento será preciso pegar emprestado de um número >= 1
-			n1->car += 10;
-			num = n1->car - n2->car;
-			resp = insereComeco(resp, num);
-			n1 = n1->ant;
-			n2 = n2->ant;
-		}
-	}
-
-	if ((n1) && (!n2)){ // quando não houver mais n2 (maior == 1)
-		while (n1){
-			if ((n1->car > 0) && (emprest == 1)){
-				n1->car -= 1;
-				emprest = 0;
-			}
-			num = n1->car;
-			resp = insereComeco(resp, num);
-			n1 = n1->ant;
-		}
-	}
-	else if ((!n1) && (n2)){ // quando não houver mais n1 (maior == 2)
-		while (n2){
-			num = n2->car;
-			resp = insereComeco(resp, num);
-			n2 = n2->ant;
-		}
-	}
-
-	return resp;
-}*/
-
 ETD * multiplica2(ETD* num1, ETD* num2){
 	ETD* n1 = num1, *n2 = num2;
 	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
@@ -368,17 +284,21 @@ ETD* subtrai(ETD* num1, ETD* num2){
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
 	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
 
-	while((aux1)||(aux2)){
-		if((aux1)&&(aux2)){
+	while((aux1)||(aux2)){ //temos ao menos 1 dos números
+		if((aux1)&&(aux2)){ //temos os 2 números
 			if(aux1->car >= aux2->car){
 				int x = aux1->car - aux2->car;
 				resp = insereComeco(resp, x);
 			}
 			else{
 				CRTR* aux3 = aux1->ant;
-				while(aux3->ant == 0){ oi
-					aux3 = aux3->ant;
+				while(aux3->ant){
+					if(aux3->ant->car == 0)
+						aux3 = aux3->ant;
+					else
+						break;
 				}
+				aux3 = aux3->ant;
 				while(aux3 != aux1){
 					aux3->car -= 1;
 					aux3->prox->car += 10;
@@ -386,14 +306,11 @@ ETD* subtrai(ETD* num1, ETD* num2){
 				}
 				int x = aux1->car - aux2->car;
 				resp = insereComeco(resp, x);
-				printf("AUX3 = ");
-				escreveAlg(descart1->prim);
 			}
 		}
-		else if(aux1){
+		else if(aux1){ //temos apenas o primeiro
 			resp = insereComeco(resp, aux1->car);
 		}
-		escreveCarac(resp);
 		if((aux1)&&(aux1->ant)) aux1 = aux1->ant;
 		else aux1 = NULL;
 		if((aux2)&&(aux2->ant)) aux2 = aux2->ant;
@@ -401,6 +318,7 @@ ETD* subtrai(ETD* num1, ETD* num2){
 	}
 	liberaCarac(descart1);
 	liberaCarac(descart2);
+
 	return resp;
 }
 
@@ -567,4 +485,88 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 			} else return maior;
 		}
 	}
+}*/
+
+/*ETD* subtrai(ETD* num1, ETD* num2){
+	int maior =  maiorMagnitude(num1, num2), num = 0, emprest = 0;
+
+	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); //lista resultante
+	resp->prim = NULL;
+	resp->ult = NULL;
+
+	if (maior == -1){
+		printf("erro ao comparar magnitudes\n");
+		return resp;
+	}
+	else if (maior == 0) { // são iguais
+		resp->valor = '+';
+		resp = insereComeco(resp, num); // resp é zero
+		return resp;
+	}
+	// sinais
+	if (((num1->valor == '+') && (num2->valor == '-')) || // num1 + num2
+		((num1->valor == '-') && (num2->valor == '+'))){ // -(num1 + num2) ou -num1 -num2
+		num2->valor = num1->valor;
+		resp = soma(num1, num2);
+		return resp;
+	}
+	else if (num2->valor == '-') num2->valor = '+';
+	else if (num2->valor == '+') num2->valor = '-';
+
+	if (maior == 1) resp->valor = num1->valor;
+	else if (maior == 2){
+		resp->valor = num2->valor;
+		numb1 = num2;
+		numb2 = num1;
+	}
+
+	CRTR* n1 = numb1->ult, *n2 = numb2->ult; //start pelo fim
+
+	while ((n1 != NULL) && (n2 != NULL)){ // enquanto ambos tiverem caracteres
+		if ((n1->car >= n2->car) && (emprest == 0)){ // só vai subtrair normalmente se não for necessário pegar emprestado
+			num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant; // andando do menor significativo pro maior
+			n2 = n2->ant;
+		}
+		else if ((n1->car > n2->car) && (emprest == 1)){
+			n1->car -= 1; // subtrai do emprestimo feito
+			emprest = 0;
+			num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+			n2 = n2->ant;
+		}
+		else{ // n1->car < n2->car => pegar emprestado (n1 < n2) || (n1 <)
+			if (n1->ant->car >= 1) n1->ant->car -= 1;
+			else emprest = 1; // armazenar a informação de q em algum momento será preciso pegar emprestado de um número >= 1
+			n1->car += 10;
+			num = n1->car - n2->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+			n2 = n2->ant;
+		}
+	}
+
+	if ((n1) && (!n2)){ // quando não houver mais n2 (maior == 1)
+		while (n1){
+			if ((n1->car > 0) && (emprest == 1)){
+				n1->car -= 1;
+				emprest = 0;
+			}
+			num = n1->car;
+			resp = insereComeco(resp, num);
+			n1 = n1->ant;
+		}
+	}
+	else if ((!n1) && (n2)){ // quando não houver mais n1 (maior == 2)
+		while (n2){
+			num = n2->car;
+			resp = insereComeco(resp, num);
+			n2 = n2->ant;
+		}
+	}
+
+	return resp;
 }*/

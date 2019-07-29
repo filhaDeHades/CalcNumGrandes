@@ -6,7 +6,7 @@
 //Tira os zeros a esquerda do número
 void tiraZero(ETD* num){
 	CRTR *p, *q = num->prim;
-	while((q->car)&&(q->car == 0)){
+	while((q)&&(q->car == 0)){
 		p = q;
 		q = q->prox;
 		num->prim = q;
