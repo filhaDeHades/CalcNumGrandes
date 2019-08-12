@@ -54,155 +54,6 @@ ETD* divide(ETD* num1, ETD* num2){
 	resp->prim = contador->prim;
 	return resp;
 }
-
-ETD * multiplica2(ETD* num1, ETD* num2){
-	ETD* n1 = num1, *n2 = num2;
-	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
-	resp->prim = NULL;
-	ETD* contador = (ETD*)malloc(sizeof(ETD));
-	contador->valor = '+';
-	contador->prim = NULL;
-	contador = insereComeco(contador, 0);
-	ETD* somar = (ETD*)malloc(sizeof(ETD));
-	somar->prim = NULL;
-	somar = insereComeco(somar, 0);
-	somar->valor = '+';
-	ETD* somador = (ETD*)malloc(sizeof(ETD));
-	somador->prim = NULL;
-	somador = insereComeco(somador, 1);
-	somador->valor = '+';
-
-	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
-	else if (num1->valor == '-' && num2->valor == '+') resp->valor = '-';
-	else resp->valor = '+';
-
-	n1->valor = '+';
-	n2->valor = '+';
-
-	int maior = maiorMagnitude(contador, n2);
-	if(maior==0){
-		resp = insereComeco(resp, 0);
-		resp->valor = '+';
-		return resp;
-	}
-	maior = maiorMagnitude(contador, n1);
-	if(maior==0){
-		resp = insereComeco(resp, 0);
-		resp->valor = '+';
-		return resp;
-	}
-
-	do{
-		somar = soma(somar, n1);
-		contador = soma(contador, somador);
-		maior = maiorMagnitude(contador, n2);
-	}while(maior!=0);
-
-	resp->prim = somar->prim;
-
-	return resp;
-}
-
-ETD* multiplica(ETD* num1, ETD* num2){
-	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0;
-	int a, b, num = 0, carry = 0;
-
-	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
-	ETD* resp = (ETD*)malloc(sizeof(ETD)); // lista resultante
-	resp->prim = NULL;
-	resp->ult = NULL;
-
-	if ((num1->prim == NULL) || (num2->prim == NULL)){ // um ou mais deles é contido apenas por zero
-		resp = insereComeco(resp, num);
-		return resp;
-	}
-
-	if (maior == -1){
-		printf("erro ao comparar magnitudes\n");
-		return resp;
-	}
-
-	if (((num1->valor == '-') && (num2->valor == '-')) || // -num1 * -num2
-		((num1->valor == '+') && (num2->valor == '+'))) // num1 *num2
-		resp->valor = '+';
-	else resp->valor = '-';
-
-	CRTR* aux = numb2->prim; // aponta por primeiro caracter da lista
-	while (aux != NULL){
-		CaracsNumb2 ++; // conta o número de caracteres de numb2
-		aux = aux->prox;
-	}
-
-	aux = numb1->prim; // aponta por pirmeiro caracter da lista
-	while (aux != NULL){
-		CaracsNumb1 ++; // conta o número de caracteres de numb1
-		aux = aux->prox;
-	}
-
-	if (CaracsNumb2 > CaracsNumb1){
-		numb1 = num2;
-		numb2 = num1; // multiplicar pelo número com menos caracteres
-		int temp = CaracsNumb1;
-		CaracsNumb1 = CaracsNumb2;
-		CaracsNumb2 = temp; // manter o valor atrelado ao numb correto
-	}
-
-	CRTR* n1 = numb1->ult, *n2 = numb2->ult;
-
-	for (a = 0; a <= CaracsNumb1; a++){ // inserindo a multiplicação da ultima casa de numb2
-		if (a == CaracsNumb1){ // ultima inserção de caractere, o ultimo carry
-			num = carry;
-			resp = insereComeco(resp, num);
-			break;
-		}
-
-		num = n1->car * n2->car + carry;
-
-		carry = num / 10; // carrega o decimal para o proximo num
-		num = num % 10;
-
-		resp = insereComeco(resp, num); // cria os ultimos caracteres de resp, os outros serão adicionados com as proximas multiplicações, os atuais (menos o ultimo) serão modificados também
-		n1 = n1->ant;
-	}
-
-	n1 = numb1->ult; // reseta a posição de n1 para as multiplicações futuras
-	n2 = n2->ant; // anda para a penultima casa de numb2
-	carry = 0;
-	CRTR* p = resp->ult->ant, *q = p; // *p pega o antepenúltimo, *q vai pegar o último de cada produto de num1 * carac de num2
-
-	for (a = 1; a < CaracsNumb2; a++){ // andar o número de casas de numb2, menos a ultima, porque ja foi
-		printf("bbbb\n");
-		for (b = 0; b <= CaracsNumb1; b++){ // a casa representada por a vai ser multiplicada por tds as casas de numb1, precisa ser <= porque a casa adicional será do carry
-			if (b == CaracsNumb1){ // inserção unica, apenas do carry
-				// if (carry == 0) break; // se o carry for zero, não é necessário inserir (senão o número pode acabar com uma casa contendo apenas um 0)
-				num = carry;
-				resp = insereComeco(resp, num);
-				break;
-			}
-			printf("aa\n" );
-
-			printf("%d\n", p->car);
-
-			num = n1->car * n2->car + carry + p->car;
-
-			carry = num / 10;
-			num = num % 10;
-			p->car = num;
-			n1 = n1->ant;
-			// if(p->ant==NULL)
-				// resp = insereComeco(resp, 0);
-				p = p->ant; // vai andar como um "n1" de resp
-		}
-
-		n1 = numb1->ult; // reseta a posição de n1
-		n2 = n2->ant;
-		carry = 0;
-		q = q->ant; // pega a menor casa de resp que será somada na próxima rodada
-		p = q; // volta pra posição que será somada na proxima rodada (como o n1, só que limitada à ultima casa q sofrerá soma)
-	}
-
-	return resp;
-}
 // --------------------------------------------- NOVAS VERSÕES ------------------------------------------------
 
 //retorna 0 se forem iguais, 1 se o primeiro for maior e -1 se o segundo for maior
@@ -227,8 +78,6 @@ int maiorMagnitude(ETD* n1, ETD* n2){
 	}
 	return 0;
 }
-
-//Subtrai recebe como primeiro número aquele de maior magnitude
 
 ETD* soma(ETD* num1, ETD* num2){
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
@@ -280,6 +129,7 @@ ETD* soma(ETD* num1, ETD* num2){
 	return resp;
 }
 
+//Subtrai recebe como primeiro número aquele de maior magnitude
 ETD* subtrai(ETD* num1, ETD* num2){
 	ETD *descart1 = copia(num1), *descart2 = copia(num2),* resp = inicializaSinal();
 	CRTR *aux1 = descart1->ult, *aux2 = descart2->ult;
@@ -364,6 +214,72 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 	}
 }
 
+ETD* multiplica(ETD* num1, ETD* num2){
+	int cont = 0; //quantidade de zeros a ser adicionados
+	ETD *descart1 = copia(num1), *descart2 = copia(num2), *resp = inicializaSinal();
+	CRTR *aux1 = inicializaCarac(0), *aux2 = inicializaCarac(0);
+	int maior = maiorMagnitude(num1, num2);
+
+	if((maior == 0)||(maior == 1)){
+		aux1 = descart1->ult;
+		aux2 = descart2->ult;
+	} else{
+		aux1 = descart2->ult;
+		aux2 = descart1->ult;
+	}
+
+	while(aux2){
+		ETD *resp2 = inicializaSinal();
+		int mais = 0, quanto = 0;
+
+		while(aux1){
+			int x = aux1->car * aux2->car;
+			if(mais) x = x + quanto;
+
+			if(x > 9){
+				mais = 1;
+				quanto = (int)x/10;
+				resp2 = insereComeco(resp2, x%10);
+				if(!aux1->ant) aux1->ant = inicializaCarac(0);
+			}
+			else{
+				mais = 0;
+				quanto = 0;
+				resp2 = insereComeco(resp2, x);
+			}
+
+			if(aux1) aux1 = aux1->ant;
+			else aux1 = NULL;
+		}
+
+		//agregando os zeros necessários
+		for(int j = 0; j < cont; j++){
+			CRTR* zero = inicializaCarac(0);
+			zero->car = 0;
+			resp2->ult->prox = zero;
+			resp2->ult = resp2->ult->prox;
+		}
+		cont++;
+		resp = soma(resp, resp2);
+
+		//continuando para o proximo número
+		escreveAlg(aux1);
+		if((aux1)&&(aux1->ant == NULL)){
+			maior = maiorMagnitude(num1, num2);
+			if((maior == 0)||(maior == 1)) aux1 = descart1->ult;
+			else aux1 = descart2->ult;
+		}
+
+		if(aux2) aux2 = aux2->ant;
+		else aux2 = NULL;
+
+	}
+	
+	if(((num1->valor == '+')&&(num2->valor == '+'))||((num1->valor == '-')&&(num2->valor == '-'))) resp->valor = '+';
+	else resp->valor = '-';
+	
+	return resp;
+}
 //------------------------------------------ FIM NOVAS VERSÕES -----------------------------------------------
 
 /*ETD* soma(ETD* num1, ETD* num2){
@@ -566,6 +482,155 @@ ETD* verifica(ETD* num1, ETD* num2, char oper){
 			resp = insereComeco(resp, num);
 			n2 = n2->ant;
 		}
+	}
+
+	return resp;
+}*/
+
+/*ETD* multiplica2(ETD* num1, ETD* num2){
+	ETD* n1 = num1, *n2 = num2;
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); //criando lista que retorna o resultado
+	resp->prim = NULL;
+	ETD* contador = (ETD*)malloc(sizeof(ETD));
+	contador->valor = '+';
+	contador->prim = NULL;
+	contador = insereComeco(contador, 0);
+	ETD* somar = (ETD*)malloc(sizeof(ETD));
+	somar->prim = NULL;
+	somar = insereComeco(somar, 0);
+	somar->valor = '+';
+	ETD* somador = (ETD*)malloc(sizeof(ETD));
+	somador->prim = NULL;
+	somador = insereComeco(somador, 1);
+	somador->valor = '+';
+
+	if(num1->valor == '+' && num2->valor == '-') resp->valor = '-';
+	else if (num1->valor == '-' && num2->valor == '+') resp->valor = '-';
+	else resp->valor = '+';
+
+	n1->valor = '+';
+	n2->valor = '+';
+
+	int maior = maiorMagnitude(contador, n2);
+	if(maior==0){
+		resp = insereComeco(resp, 0);
+		resp->valor = '+';
+		return resp;
+	}
+	maior = maiorMagnitude(contador, n1);
+	if(maior==0){
+		resp = insereComeco(resp, 0);
+		resp->valor = '+';
+		return resp;
+	}
+
+	do{
+		somar = soma(somar, n1);
+		contador = soma(contador, somador);
+		maior = maiorMagnitude(contador, n2);
+	}while(maior!=0);
+
+	resp->prim = somar->prim;
+
+	return resp;
+}*/
+
+/*ETD* multiplica(ETD* num1, ETD* num2){
+	int maior =  maiorMagnitude(num1, num2), CaracsNumb2 = 0, CaracsNumb1 = 0;
+	int a, b, num = 0, carry = 0;
+
+	ETD* numb1 = num1, *numb2 = num2; // para não modificar os valores iniciais
+	ETD* resp = (ETD*)malloc(sizeof(ETD)); // lista resultante
+	resp->prim = NULL;
+	resp->ult = NULL;
+
+	if ((num1->prim == NULL) || (num2->prim == NULL)){ // um ou mais deles é contido apenas por zero
+		resp = insereComeco(resp, num);
+		return resp;
+	}
+
+	if (maior == -1){
+		printf("erro ao comparar magnitudes\n");
+		return resp;
+	}
+
+	if (((num1->valor == '-') && (num2->valor == '-')) || // -num1 * -num2
+		((num1->valor == '+') && (num2->valor == '+'))) // num1 *num2
+		resp->valor = '+';
+	else resp->valor = '-';
+
+	CRTR* aux = numb2->prim; // aponta por primeiro caracter da lista
+	while (aux != NULL){
+		CaracsNumb2 ++; // conta o número de caracteres de numb2
+		aux = aux->prox;
+	}
+
+	aux = numb1->prim; // aponta por pirmeiro caracter da lista
+	while (aux != NULL){
+		CaracsNumb1 ++; // conta o número de caracteres de numb1
+		aux = aux->prox;
+	}
+
+	if (CaracsNumb2 > CaracsNumb1){
+		numb1 = num2;
+		numb2 = num1; // multiplicar pelo número com menos caracteres
+		int temp = CaracsNumb1;
+		CaracsNumb1 = CaracsNumb2;
+		CaracsNumb2 = temp; // manter o valor atrelado ao numb correto
+	}
+
+	CRTR* n1 = numb1->ult, *n2 = numb2->ult;
+
+	for (a = 0; a <= CaracsNumb1; a++){ // inserindo a multiplicação da ultima casa de numb2
+		if (a == CaracsNumb1){ // ultima inserção de caractere, o ultimo carry
+			num = carry;
+			resp = insereComeco(resp, num);
+			break;
+		}
+
+		num = n1->car * n2->car + carry;
+
+		carry = num / 10; // carrega o decimal para o proximo num
+		num = num % 10;
+
+		resp = insereComeco(resp, num); // cria os ultimos caracteres de resp, os outros serão adicionados com as proximas multiplicações, os atuais (menos o ultimo) serão modificados também
+		n1 = n1->ant;
+	}
+
+	n1 = numb1->ult; // reseta a posição de n1 para as multiplicações futuras
+	n2 = n2->ant; // anda para a penultima casa de numb2
+	carry = 0;
+	CRTR* p = resp->ult->ant, *q = p; // *p pega o antepenúltimo, *q vai pegar o último de cada produto de num1 * carac de num2
+
+	for (a = 1; a < CaracsNumb2; a++){ // andar o número de casas de numb2, menos a ultima, porque ja foi
+		printf("bbbb\n");
+		for (b = 0; b <= CaracsNumb1; b++){ // a casa representada por a vai ser multiplicada por tds as casas de numb1, precisa ser <= porque a casa adicional será do carry
+			if (b == CaracsNumb1){ // inserção unica, apenas do carry
+				// if (carry == 0) break; // se o carry for zero, não é necessário inserir (senão o número pode acabar com uma casa contendo apenas um 0)
+				num = carry;
+				resp = insereComeco(resp, num);
+				break;
+			}
+			printf("aa\n" );
+
+			printf("%d\n", p->car);
+
+			num = n1->car * n2->car + carry + p->car;
+
+			carry = num / 10;
+			num = num % 10;
+			p->car = num;
+			n1 = n1->ant;
+			// if(p->ant==NULL)
+				// resp = insereComeco(resp, 0);
+				p = p->ant; // vai andar como um "n1" de resp
+		}
+
+		n1 = numb1->ult; // reseta a posição de n1
+		n2 = n2->ant;
+		carry = 0;
+		q = q->ant; // pega a menor casa de resp que será somada na próxima rodada
+		p = q; // volta pra posição que será somada na proxima rodada (como o n1, só que limitada à ultima casa q sofrerá soma)
 	}
 
 	return resp;
