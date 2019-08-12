@@ -73,6 +73,19 @@ ETD* insereComeco(ETD* palavra, int num){
 	palavra->prim = novo;
 }
 
+//Copia um número
+ETD* copia(ETD* num){
+	if(!num) return NULL;
+	ETD* cop = inicializaSinal();
+	CRTR *aux = num->ult;
+
+	cop->valor = num->valor;
+	while(aux){
+		cop = insereComeco(cop, aux->car);
+		aux = aux->ant;
+	}
+	return cop;
+}
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void){
