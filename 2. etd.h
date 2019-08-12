@@ -14,6 +14,7 @@ typedef struct entrada{
 //---------------------------------- Usando os caracteres de entrada -------------------------------------
 //Tira os zeros a esquerda do número
 void tiraZero(ETD* num);
+
 //Menu do programa
 char operacao(void);
 
