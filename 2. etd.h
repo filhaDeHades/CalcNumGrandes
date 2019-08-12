@@ -32,7 +32,7 @@ CRTR* invC(CRTR* num);
 ETD* insereComeco(ETD* palavra, int num);
 
 //Copia um número
-ETD* copia(ETD* num)
+ETD* copia(ETD* num);
 //------------------------------------------ Inicializadores ----------------------------------------------
 //Inicializa a estrutura ETD
 ETD* inicializaSinal(void);
